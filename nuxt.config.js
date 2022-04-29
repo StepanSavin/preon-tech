@@ -21,7 +21,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/fullpage', mode: 'client' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -38,7 +38,12 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-fullpage.js',
   ],
+
+  tailwindcss: {
+    configPath: '~/tailwind.config.js',
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
