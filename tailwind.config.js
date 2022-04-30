@@ -6,11 +6,11 @@ module.exports = {
   },
   theme: {
     screens: {
-      xs: { max: '768px' },
-      md: { min: '769px', max: '1024px' },
-      smd: { min: '769px', max: '940px' },
-      lg: { min: '1025px', max: '1200px' },
-      xl: { min: '1025px' },
+      xs: { max: '743px' },
+      sm: { min: '744', max: '1023px' },
+      md: { min: '1024px', max: '1199px' },
+      lg: { min: '1200px', max: '1919px' },
+      xl: { min: '1920px' },
     },
     borderRadius: {
       default: '0.25rem',
@@ -36,13 +36,11 @@ module.exports = {
       lg: '1.125rem',
       xl: '1.25rem',
       '2xl': '1.5rem',
-      '3xl': '1.75rem',
-      '3sxl': '2rem',
-      '4xl': '2.25rem',
-      '5sxl': '2.5rem',
-      '5xl': '3rem',
-      '6xl': '3.625rem',
-      '7xl': '4rem',
+      '3xl': '2rem',
+      '4xl': '3.125rem',
+      '5xl': '3.875rem',
+      '6xl': '6.25rem',
+      '7xl': '5rem',
     },
     extend: {
       opacity: {
@@ -57,9 +55,10 @@ module.exports = {
         12: '3rem',
         16: '4rem',
         18: '4.5rem',
+        20: '5rem',
       },
       colors: {
-        'blue-hover': '#3C82F6',
+        'yellow-1': '#FFF500',
       },
       fontFamily: {
         gbold: 'Gotham Pro Bold',
