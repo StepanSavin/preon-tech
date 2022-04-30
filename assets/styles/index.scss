@@ -12,3 +12,9 @@ body {
   opacity: 1;
   transition: opacity 400ms !important;
 }
+
+.main-container {
+  max-width: 1920px;
+  margin: auto;
+  overflow: hidden;
+}

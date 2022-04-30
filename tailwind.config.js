@@ -27,6 +27,7 @@ module.exports = {
       30: '30px',
       45: '45px',
       60: '60px',
+      100: '100px',
       full: '50%',
     },
     fontSize: {
@@ -59,6 +60,23 @@ module.exports = {
       },
       colors: {
         'yellow-1': '#FFF500',
+        'gray-1': '#DCDCDC',
+        case: {
+          1: '#FF9B80',
+          'text-1': '#D74E28',
+          2: '#EBA35D',
+          'text-2': '#B3743D',
+          3: '#8479FF',
+          'text-3': '#AEA7FF',
+          4: '#E6CDB6',
+          'text-4': '#948373',
+          5: '#98B2FF',
+          'text-5': '#7C96E5',
+          6: '#F2C459',
+          'text-6': '#D19914',
+          7: '#509BFD',
+          'text-7': '#C7D0F0',
+        },
       },
       fontFamily: {
         gbold: 'Gotham Pro Bold',
