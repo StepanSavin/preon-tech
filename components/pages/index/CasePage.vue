@@ -1,9 +1,9 @@
 <template>
   <div
-    class="w-full h-screen pt-24 pb-14 pr-6 pl-24 transition-all duration-1000"
+    class="w-full h-screen xs:h-10 pt-24 pb-14 pr-6 pl-24 transition-all duration-1000 xs:static sm:static"
     :class="`bg-case-${section}`"
   >
-    <div class="w-full flex gap-4 justify-between">
+    <div class="w-full flex gap-4 justify-between xs:hidden">
       <div class="caselist__text-block flex flex-col justify-between relative">
         <div class="relative z-5">
           <p class="font-bold text-white text-3xl leading-10">Selected Works</p>

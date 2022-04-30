@@ -61,6 +61,7 @@ module.exports = {
       colors: {
         'yellow-1': '#FFF500',
         'gray-1': '#DCDCDC',
+        'gray-2': '#727272',
         case: {
           1: '#FF9B80',
           'text-1': '#D74E28',
