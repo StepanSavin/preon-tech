@@ -6,12 +6,13 @@
       </full-page>
       <Header v-show="false" class="absolute top-0 left-0 bg-black" />
       <CasePage
+        v-show="false"
         class="absolute top-0 left-0"
         :currentSection="currentSection"
         :prevSection="prevSection"
       />
       <TrustPartners v-show="false" class="absolute top-0 left-0" />
-      <ServicesSolutions class="absolute top-0 left-0"/>
+      <ServicesSolutions class="absolute top-0 left-0" />
     </div>
   </client-only>
 </template>
