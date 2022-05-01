@@ -7,7 +7,6 @@
       pt-32
       px-24
       flex flex-col
-      h-full
       justify-between
       gap-6
     "

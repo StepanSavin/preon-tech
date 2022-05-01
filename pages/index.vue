@@ -4,15 +4,22 @@
       <full-page ref="fullpage" :options="options" class="sm:hidden xs:hidden">
         <div v-for="n in 9" :key="n" class="section"></div>
       </full-page>
-      <Header v-show="false" class="absolute top-0 left-0 bg-black" />
+      <Header v-show="false" class="absolute top-0 left-0" />
       <CasePage
-        v-show="false"
+        v-if="false"
         class="absolute top-0 left-0"
         :currentSection="currentSection"
         :prevSection="prevSection"
       />
       <TrustPartners v-show="false" class="absolute top-0 left-0" />
-      <ServicesSolutions class="absolute top-0 left-0" />
+      <ServicesSolutions v-if="false" class="absolute top-0 left-0" />
+      <AdvantagesList v-if="false" class="absolute top-0 left-0" />
+      <ProcessesList
+        v-if="false"
+        :currentSection="currentSection"
+        :prevSection="prevSection"
+        class="absolute top-0 left-0"
+      />
     </div>
   </client-only>
 </template>
@@ -22,10 +29,19 @@ import Header from '@/components/pages/index/Header.vue'
 import CasePage from '@/components/pages/index/CasePage.vue'
 import TrustPartners from '@/components/pages/index/TrustPartners.vue'
 import ServicesSolutions from '@/components/pages/index/ServicesSolutions.vue'
+import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
+import ProcessesList from '@/components/pages/index/ProcessesList.vue'
 
 export default {
   name: 'IndexPage',
-  components: { Header, CasePage, TrustPartners, ServicesSolutions },
+  components: {
+    Header,
+    CasePage,
+    TrustPartners,
+    ServicesSolutions,
+    AdvantagesList,
+    ProcessesList,
+  },
   data() {
     return {
       options: {
