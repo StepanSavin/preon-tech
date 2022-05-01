@@ -1,149 +1,179 @@
 <template>
-  <div
-    class="w-full h-screen xs:h-10 pt-24 pb-14 pr-6 pl-24 transition-all duration-1000 xs:static sm:static"
-    :class="`bg-case-${section}`"
-  >
-    <div class="w-full flex gap-4 justify-between xs:hidden">
-      <div class="caselist__text-block flex flex-col justify-between relative">
-        <div class="relative z-5">
-          <p class="font-bold text-white text-3xl leading-10">Selected Works</p>
-          <transition name="linkappear">
-            <a :key="section" class="flex gap-2 items-center mt-4">
-              <div
-                class="
-                  h-5
-                  w-5
-                  rounded-full
-                  flex
-                  justify-center
-                  items-center
-                  transition-all
-                  duration-1000
-                "
-                :class="`bg-case-text-${section}`"
-              >
-                <LazyImage
-                  width="8"
-                  height="8"
-                  src="index/cases/arrow-icon.svg"
-                />
-              </div>
+  <transition name="caselist">
+    <div
+      v-show="!isAbove"
+      class="
+        w-full
+        h-screen
+        xs:h-10
+        pt-24
+        pb-14
+        pr-6
+        pl-24
+        transition-all
+        duration-1000
+        xs:static
+        sm:static
+      "
+      :class="[{ caselist_below: isBelow }]"
+    >
+      <div class="w-full flex gap-4 justify-between xs:hidden">
+        <div
+          class="caselist__text-block flex flex-col justify-between relative"
+        >
+          <div class="relative z-5">
+            <p class="font-bold text-white text-3xl leading-10">
+              Selected Works
+            </p>
+            <transition name="linkappear">
+              <a :key="section" class="flex gap-2 items-center mt-4">
+                <div
+                  class="
+                    h-5
+                    w-5
+                    rounded-full
+                    flex
+                    justify-center
+                    items-center
+                    transition-all
+                    duration-1000
+                  "
+                  :class="`bg-case-text-${section}`"
+                >
+                  <LazyImage
+                    width="8"
+                    height="8"
+                    src="index/cases/arrow-icon.svg"
+                  />
+                </div>
+                <p
+                  class="text-xl leading-6 transition-all duration-1000"
+                  :class="`text-case-text-${section}`"
+                >
+                  {{ cases[section - 1].link }}
+                </p>
+              </a>
+            </transition>
+            <div
+              class="flex items-center gap-2 mt-4 transition-all duration-1000"
+            >
               <p
                 class="text-xl leading-6 transition-all duration-1000"
                 :class="`text-case-text-${section}`"
               >
-                {{ cases[section - 1].link }}
+                {{ section }}
               </p>
-            </a>
-          </transition>
-          <div
-            class="flex items-center gap-2 mt-4 transition-all duration-1000"
-          >
-            <p
-              class="text-xl leading-6 transition-all duration-1000"
-              :class="`text-case-text-${section}`"
-            >
-              {{ section }}
-            </p>
-            <div class="w-32 h-px bg-white relative">
-              <div
-                :style="{ transform: `scaleX(${section / 7})` }"
-                class="
-                  absolute
-                  top-0
-                  left-0
-                  w-full
-                  h-full
-                  origin-left
-                  transition-all
-                  duration-1000
-                "
-                :class="`bg-case-text-${section}`"
-              ></div>
-            </div>
-            <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
-          </div>
-          <transition name="linkappear">
-            <div
-              :key="section"
-              class="flex flex-wrap gap-2 mt-4 caselist__taggroup"
-            >
-              <div
-                v-for="tag in cases[section - 1].tags"
-                :key="tag + section"
-                class="
-                  caselist__tag
-                  rounded-60
-                  py-1.5
-                  px-3
-                  text-sm
-                  font-bold
-                  leading-4
-                  bg-white
-                  transition-all
-                  duration-1000
-                "
-                :class="`text-case-${section}`"
-              >
-                {{ tag }}
+              <div class="w-32 h-px bg-white relative">
+                <div
+                  :style="{ transform: `scaleX(${section / 7})` }"
+                  class="
+                    absolute
+                    top-0
+                    left-0
+                    w-full
+                    h-full
+                    origin-left
+                    transition-all
+                    duration-1000
+                  "
+                  :class="`bg-case-text-${section}`"
+                ></div>
               </div>
+              <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
+            </div>
+            <transition name="linkappear">
+              <div
+                :key="section"
+                class="flex flex-wrap gap-2 mt-4 caselist__taggroup"
+              >
+                <div
+                  v-for="tag in cases[section - 1].tags"
+                  :key="tag + section"
+                  class="
+                    caselist__tag
+                    rounded-60
+                    py-1.5
+                    px-3
+                    text-sm
+                    font-bold
+                    leading-4
+                    bg-white
+                    transition-all
+                    duration-1000
+                  "
+                  :class="`text-case-${section}`"
+                >
+                  {{ tag }}
+                </div>
+              </div>
+            </transition>
+          </div>
+          <transition name="text">
+            <div :key="section">
+              <p class="text-white leading-5 font-medium">
+                <span class="font-bold">
+                  {{ cases[section - 1].advantage.title }}
+                </span>
+                {{ cases[section - 1].advantage.text }}
+              </p>
+              <p class="mt-8 text-sm leading-4 text-white font-medium">
+                <span class="font-bold">Stack:</span>
+                {{ cases[section - 1].stack }}
+              </p>
+              <p class="mt-2 text-sm text-white leading-4 font-medium relative">
+                <span class="font-bold">Task: </span>
+                {{ cases[section - 1].task }}
+              </p>
+
+              <p class="mt-8 font-medium text-white leading-5 pb-2">
+                {{ cases[section - 1].present }}
+              </p>
             </div>
           </transition>
-        </div>
-        <transition name="text">
-          <div :key="section">
-            <p class="text-white leading-5 font-medium">
-              <span class="font-bold">
-                {{ cases[section - 1].advantage.title }}
-              </span>
-              {{ cases[section - 1].advantage.text }}
-            </p>
-            <p class="mt-8 text-sm leading-4 text-white font-medium">
-              <span class="font-bold">Stack:</span>
-              {{ cases[section - 1].stack }}
-            </p>
-            <p class="mt-2 text-sm text-white leading-4 font-medium relative">
-              <span class="font-bold">Task: </span>
-              {{ cases[section - 1].task }}
-            </p>
-
-            <p class="mt-8 font-medium text-white leading-5 pb-2">
-              {{ cases[section - 1].present }}
-            </p>
+          <div class="caselist__title-block absolute left-0 font-medium z-5">
+            <transition name="title">
+              <p :key="section" class="text-white text-7xl">
+                {{ cases[section - 1].title }}<br />
+              </p>
+            </transition>
+            <transition name="subtitle">
+              <p
+                :key="section"
+                class="caselist__subtitle transition-all duration-1000"
+                :class="`text-case-text-${section}`"
+              >
+                {{ cases[section - 1].subtitle }}
+              </p>
+            </transition>
           </div>
-        </transition>
-        <div class="caselist__title-block absolute left-0 font-medium z-5">
-          <transition name="title">
-            <p :key="section" class="text-white text-7xl">
-              {{ cases[section - 1].title }}<br />
-            </p>
-          </transition>
-          <transition name="subtitle">
-            <p
-              :key="section"
-              class="caselist__subtitle transition-all duration-1000"
-              :class="`text-case-text-${section}`"
-            >
-              {{ cases[section - 1].subtitle }}
-            </p>
-          </transition>
         </div>
+        <transition-group
+          tag="div"
+          class="relative caselist__image-wrapper"
+          :name="currentSection > prevSection ? 'bgappear' : 'bgappearreverse'"
+        >
+          <img
+            v-for="n in cases.length"
+            :key="n + `${section}`"
+            :src="require(`@/assets/images/index/cases/${n}.png`)"
+            class="
+              rounded-60
+              caselist__main-image
+              w-full
+              top-0
+              left-0
+              duration-700
+              delay-300
+            "
+            :class="{
+              'absolute opacity-min': n !== section,
+              'caselist__main-image_below': isBelow,
+            }"
+          />
+        </transition-group>
       </div>
-      <transition-group
-        tag="div"
-        class="relative caselist__image-wrapper"
-        :name="currentSection > prevSection ? 'bgappear' : 'bgappearreverse'"
-      >
-        <img
-          v-for="n in cases.length"
-          :key="n + `${section}`"
-          :src="require(`@/assets/images/index/cases/${n}.png`)"
-          class="rounded-60 caselist__main-image w-full top-0 left-0"
-          :class="{ 'absolute opacity-min': n !== section }"
-        />
-      </transition-group>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -257,11 +287,47 @@ export default {
       ],
     }
   },
+  mounted() {
+    this.$emit('change-color', '#FF9B80')
+  },
+  watch: {
+    currentSection(newValue) {
+      switch (newValue) {
+        case 2:
+          this.$emit('changeColor', '#FF9B80')
+          return
+        case 3:
+          this.$emit('changeColor', '#EBA35D')
+          return
+        case 4:
+          this.$emit('changeColor', '#8479FF')
+          break
+        case 5:
+          this.$emit('changeColor', '#E6CDB6')
+          break
+        case 6:
+          this.$emit('changeColor', '#98B2FF')
+          break
+        case 7:
+          this.$emit('changeColor', '#F2C459')
+          break
+        case 8:
+          this.$emit('changeColor', '#509BFD')
+          break
+      }
+    },
+  },
   computed: {
     section() {
       if (this.$props.currentSection <= 2) return 1
       else if (this.$props.currentSection > 7) return 7
       return this.$props.currentSection - 1
+    },
+    isAbove() {
+      return this.$props.currentSection > 8
+    },
+    isBelow() {
+      return this.$props.currentSection < 2
     },
   },
 }
@@ -291,6 +357,22 @@ export default {
   &__image-wrapper {
     width: 998px;
     height: 702px;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: all 1000ms;
+  }
+  &-enter,
+  &-leave-to {
+    transform: translateY(-100vh);
+  }
+
+  &_below {
+    transform: translateY(100vh) !important;
+  }
+  &__main-image_below {
+    transform: translateY(-20vh) !important;
   }
 }
 
