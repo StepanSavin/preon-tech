@@ -64,6 +64,7 @@ module.exports = {
         'gray-1': '#DCDCDC',
         'gray-2': '#727272',
         'gray-3': '#5A5A5A',
+        'gray-4': '#C3C3C3',
         case: {
           1: '#FF9B80',
           'text-1': '#D74E28',

@@ -20,6 +20,11 @@
         :prevSection="prevSection"
         class="absolute top-0 left-0"
       />
+      <DealsList
+        class="absolute top-0 left-0"
+        :currentSection="currentSection"
+        :prevSection="prevSection"
+      />
     </div>
   </client-only>
 </template>
@@ -31,6 +36,7 @@ import TrustPartners from '@/components/pages/index/TrustPartners.vue'
 import ServicesSolutions from '@/components/pages/index/ServicesSolutions.vue'
 import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
 import ProcessesList from '@/components/pages/index/ProcessesList.vue'
+import DealsList from '@/components/pages/index/DealsList.vue'
 
 export default {
   name: 'IndexPage',
@@ -41,6 +47,7 @@ export default {
     ServicesSolutions,
     AdvantagesList,
     ProcessesList,
+    DealsList,
   },
   data() {
     return {
