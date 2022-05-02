@@ -10,6 +10,7 @@
       @changeColor="changeColor"
     />
     <CasePage
+      @click.native="currentSection = 11"
       :currentSection="currentSection"
       :scrollDirection="scrollDirection"
       @changeColor="changeColor"
@@ -27,18 +28,29 @@
       @changeColor="changeColor"
       class="absolute top-0 left-0"
     />
-    <AdvantagesList v-if="false" class="absolute top-0 left-0" />
-    <ProcessesList
-      v-if="false"
+    <AdvantagesList
       :currentSection="currentSection"
+      :scrollDirection="scrollDirection"
+      @changeColor="changeColor"
       class="absolute top-0 left-0"
+    />
+    <StackList
+      :currentSection="currentSection"
+      :scrollDirection="scrollDirection"
+      class="absolute top-0 left-0"
+      @changeColor="changeColor"
+    />
+    <ProcessesList
+      :currentSection="currentSection"
+      :scrollDirection="scrollDirection"
+      class="absolute top-0 left-0"
+      @changeColor="changeColor"
     />
     <DealsList
       v-if="false"
       class="absolute top-0 left-0"
       :currentSection="currentSection"
     />
-    <StackList v-if="false" class="absolute top-0 left-0" />
   </div>
 </template>
 

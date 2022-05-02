@@ -213,7 +213,8 @@ export default {
     &-enter-active,
     &-leave-active *,
     &-enter-active * {
-      transition: all 1000ms;
+      transition: all 600ms;
+      transition-delay: 100ms;
       .solutions__image-cover {
         transition-duration: 1000ms !important;
       }
@@ -232,7 +233,7 @@ export default {
 
     &-enter {
       .solutions__images-wrapper {
-        transform: translateY(0vh);
+        transform: translateY(-100vh);
       }
       .solutions__top-text {
         opacity: 0;

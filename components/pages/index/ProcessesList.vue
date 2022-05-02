@@ -1,112 +1,118 @@
 <template>
-  <div
-    class="processes w-full h-screen pt-32 pl-24 flex flex-col duration-1000"
-    :class="`bg-process-bg-${section}`"
+  <transition
+    :name="scrollDirection === 'down' ? 'processes-down' : 'processes-up'"
   >
-    <div class="flex items-center">
-      <p class="text-3xl text-white font-bold leading-10">Processes</p>
-      <div class="flex items-center">
-        <p class="text-white leading-5 processes__subtext">
-          Speed and quality are achieved by unique design and development
-          <br />processes for it solutions. Automated project management system
-          <br />gives the customer access to real-time reporting of all project
-          details
-        </p>
-      </div>
-    </div>
-    <div class="flex-1 flex gap-20 mt-8">
-      <div class="flex-1 flex gap-4">
-        <div class="w-8 h-full">
-          <div class="w-px h-full mx-auto bg-white"></div>
+    <div
+      v-if="isVisible"
+      class="processes w-full h-screen pt-32 pl-24 flex flex-col duration-1000"
+    >
+      <div class="flex items-center processes__top-text">
+        <p class="text-3xl text-white font-bold leading-10">Processes</p>
+        <div class="flex items-center">
+          <p class="text-white leading-5 processes__subtext">
+            Speed and quality are achieved by unique design and development
+            <br />processes for it solutions. Automated project management
+            system <br />gives the customer access to real-time reporting of all
+            project details
+          </p>
         </div>
-        <div class="flex-1 h-full relative">
-          <div
-            v-for="(process, index) in processes"
-            :key="process.title"
-            :style="{ top: `${60 * index}px` }"
-            class="w-full absolute left-0 mb-3 duration-1000"
-            :class="{
-              'processes__active-process': section - 1 === index,
-              'processes__next-process': section === index,
-              'processes__disabled-process': index > section,
-            }"
-          >
-            <p class="font-medium leading-5 text-white duration-1000">{{ process.date }}</p>
-            <p
-              class="mt-1 text-white leading-6 font-semibold duration-1000"
-              :class="section - 1 === index ? 'text-2xl' : ' text-xl '"
-            >
-              {{ process.title }}
-            </p>
-            <p
-              class="mt-2 text-xl leading-6 text-white duration-1000"
-              :class="section - 1 === index ? '' : 'max-h-0 opacity-0'"
-            >
-              {{ process.text }}
-            </p>
+      </div>
+      <div class="flex-1 flex gap-20 mt-8 processes__main-block">
+        <div class="flex-1 flex gap-4">
+          <div class="w-8 h-full">
+            <div class="w-px h-full mx-auto bg-white"></div>
+          </div>
+          <div class="flex-1 h-full relative">
             <div
-              style="left: -37px"
-              class="
-                rounded-full
-                bg-white
-                w-2.5
-                h-2.5
-                absolute
-                top-0
-                transform
-                duration-1000
-              "
-              :class="{ 'scale-150': index + 1 === section }"
-            ></div>
+              v-for="(process, index) in processes"
+              :key="process.title"
+              :style="{ top: `${60 * index}px` }"
+              class="w-full absolute left-0 mb-3 duration-1000"
+              :class="{
+                'processes__active-process': section - 1 === index,
+                'processes__next-process': section === index,
+                'processes__disabled-process': index > section,
+              }"
+            >
+              <p class="font-medium leading-5 text-white duration-1000">
+                {{ process.date }}
+              </p>
+              <p
+                class="mt-1 text-white leading-6 font-semibold duration-1000"
+                :class="section - 1 === index ? 'text-2xl' : ' text-xl '"
+              >
+                {{ process.title }}
+              </p>
+              <p
+                class="mt-2 text-xl leading-6 text-white duration-1000"
+                :class="section - 1 === index ? '' : 'max-h-0 opacity-0'"
+              >
+                {{ process.text }}
+              </p>
+              <div
+                style="left: -37px"
+                class="
+                  rounded-full
+                  bg-white
+                  w-2.5
+                  h-2.5
+                  absolute
+                  top-0
+                  transform
+                  duration-1000
+                "
+                :class="{ 'scale-150': index + 1 === section }"
+              ></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="processes__image-wrapper relative">
-        <transition-group tag="div" name="process-images">
-          <img
-            v-for="n in processes.length"
-            :key="n + `${section}`"
-            style="max-width: unset"
-            width="500"
-            height="490"
-            :src="require(`@/assets/images/index/processes/${n}.png`)"
-            class="absolute top-0 left-0"
-            :class="{
-              'z-2 opacity-1': n === section,
-              'opacity-0': n !== section,
-            }"
-          />
-        </transition-group>
-        <transition name="process-advantage">
-          <div
-            :key="section"
-            class="
-              processes__advantage
-              w-40
-              h-40
-              rounded-full
-              absolute
-              z-3
-              flex flex-col
-              justify-center
-              items-center
-            "
-            :class="`bg-process-adv-${section}`"
-          >
-            <p class="text-white text-2xl font-medium leading-10">
-              {{ processes[section - 1].advantage.number }}
-            </p>
-            <p
-              style="font-size: 10px"
-              class="text-white font-medium leading-3 text-center"
+        <div class="processes__image-wrapper relative">
+          <transition-group tag="div" name="process-images">
+            <img
+              v-for="n in processes.length"
+              :key="n + `${section}`"
+              style="max-width: unset"
+              width="500"
+              height="490"
+              :src="require(`@/assets/images/index/processes/${n}.png`)"
+              class="absolute top-0 left-0"
+              :class="{
+                'z-2 opacity-1': n === section,
+                'opacity-0': n !== section,
+              }"
+            />
+          </transition-group>
+          <transition name="process-advantage">
+            <div
+              :key="section"
+              class="
+                processes__advantage
+                w-40
+                h-40
+                rounded-full
+                absolute
+                z-3
+                flex flex-col
+                justify-center
+                items-center
+              "
+              :class="`bg-process-adv-${section}`"
             >
-              {{ processes[section - 1].advantage.text }}
-            </p>
-          </div>
-        </transition>
+              <p class="text-white text-2xl font-medium leading-10">
+                {{ processes[section - 1].advantage.number }}
+              </p>
+              <p
+                style="font-size: 10px"
+                class="text-white font-medium leading-3 text-center"
+              >
+                {{ processes[section - 1].advantage.text }}
+              </p>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -117,9 +123,9 @@ export default {
       type: Number,
       required: true,
     },
-    prevSection: {
-      type: Number,
-      required: true,
+    scrollDirection: {
+      type: String,
+      default: 'down',
     },
   },
   data() {
@@ -191,10 +197,41 @@ export default {
       ],
     }
   },
+  watch: {
+    currentSection(newValue) {
+      switch (newValue) {
+        case 13:
+          this.$emit('changeColor', '#FD815C')
+          return
+        case 14:
+          this.$emit('changeColor', '#465281')
+          return
+        case 15:
+          this.$emit('changeColor', '#2E0879')
+          break
+        case 16:
+          this.$emit('changeColor', '#CFBC62')
+          break
+        case 17:
+          this.$emit('changeColor', '#FD815C')
+          break
+        case 18:
+          this.$emit('changeColor', '#FE4A4F')
+          break
+        case 19:
+          this.$emit('changeColor', '#9C0EA8')
+          break
+      }
+    },
+  },
   computed: {
     section() {
-      if (this.$props.currentSection > 7) return 7
-      return this.$props.currentSection
+      return this.$props.currentSection - 12
+    },
+    isVisible() {
+      return (
+        this.$props.currentSection >= 13 && this.$props.currentSection <= 19
+      )
     },
   },
 }
@@ -252,6 +289,66 @@ export default {
   &-leave-to {
     opacity: 0;
     transform: translateY(-80px);
+  }
+}
+
+.processes {
+  &-down {
+    &-enter-active,
+    &-enter-active * {
+      transition: all 700ms;
+    }
+    &-leave-active,
+    &-leave-active * {
+      transition: all 700ms;
+    }
+    &-enter {
+      .processes__main-block {
+        transform: translateY(100vh);
+      }
+      .processes__top-text {
+        opacity: 0;
+        transform: scaleY(0.1);
+      }
+    }
+    &-leave-to {
+      .processes__main-block {
+        transform: translateY(-100vh);
+      }
+      .processes__top-text {
+        opacity: 0;
+        transform: scaleY(0.1);
+      }
+    }
+  }
+
+  &-up {
+    &-enter-active,
+    &-enter-active * {
+      transition: all 700ms;
+    }
+    &-leave-active,
+    &-leave-active * {
+      transition: all 700ms;
+    }
+    &-enter {
+      .processes__main-block {
+        transform: translateY(-100vh);
+      }
+      .processes__top-text {
+        opacity: 0;
+        transform: scaleY(0.1);
+      }
+    }
+    &-leave-to {
+      .processes__main-block {
+        transform: translateY(100vh);
+      }
+      .processes__top-text {
+        opacity: 0;
+        transform: scaleY(0.1);
+      }
+    }
   }
 }
 </style>

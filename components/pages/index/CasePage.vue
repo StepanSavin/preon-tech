@@ -1,7 +1,7 @@
 <template>
   <transition name="caselist">
     <div
-      v-show="!isAbove"
+      v-if="!isAbove"
       class="
         w-full
         h-screen
