@@ -15,9 +15,13 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  css: ['~/assets/styles/index.scss', '~/assets/styles/fonts.scss'],
+  css: [
+    '~/assets/styles/index.scss',
+    '~/assets/styles/fonts.scss',
+    'swiper/swiper-bundle.css',
+  ],
 
-  plugins: [{ src: '~/plugins/fullpage', mode: 'client' }],
+  plugins: [{ src: '~/plugins/vue-awesome-swiper.js', ssr: false }],
   components: [{ path: '~/components/ui/LazyImage.vue' }],
 
   buildModules: [
@@ -26,7 +30,7 @@ export default {
     'nuxt-lazysizes',
   ],
 
-  modules: ['@nuxtjs/axios', 'nuxt-fullpage.js'],
+  modules: ['@nuxtjs/axios'],
 
   tailwindcss: {
     configPath: '~/tailwind.config.js',

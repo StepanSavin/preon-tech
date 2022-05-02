@@ -47,9 +47,16 @@
       @changeColor="changeColor"
     />
     <DealsList
-      v-if="false"
-      class="absolute top-0 left-0"
       :currentSection="currentSection"
+      :scrollDirection="scrollDirection"
+      @changeColor="changeColor"
+      class="absolute top-0 left-0"
+    />
+    <ReviewsList
+      :currentSection="currentSection"
+      :scrollDirection="scrollDirection"
+      @changeColor="changeColor"
+      class="absolute top-0 left-0"
     />
   </div>
 </template>
@@ -63,6 +70,7 @@ import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
 import ProcessesList from '@/components/pages/index/ProcessesList.vue'
 import DealsList from '@/components/pages/index/DealsList.vue'
 import StackList from '@/components/pages/index/StackList.vue'
+import ReviewsList from '@/components/pages/index/ReviewsList.vue'
 
 export default {
   name: 'IndexPage',
@@ -75,6 +83,7 @@ export default {
     ProcessesList,
     DealsList,
     StackList,
+    ReviewsList,
   },
   data() {
     return {
