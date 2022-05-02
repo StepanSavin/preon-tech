@@ -10,7 +10,6 @@
       @changeColor="changeColor"
     />
     <CasePage
-      @click.native="currentSection = 11"
       :currentSection="currentSection"
       :scrollDirection="scrollDirection"
       @changeColor="changeColor"
@@ -96,17 +95,24 @@ export default {
   mounted() {
     window.addEventListener('wheel', (event) => {
       if (this.offScroll | event.ctrlKey) return
-      this.offScroll = true
-      setTimeout(() => {
-        this.offScroll = false
-      }, 800)
+
       if (event.deltaY > 0) {
+        if (this.currentSection >= 23) return
         this.scrollDirection = 'down'
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 800)
         setTimeout(() => {
           this.currentSection += 1
         }, 50)
       } else {
         this.scrollDirection = 'up'
+        if (this.currentSection <= 1) return
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 800)
         setTimeout(() => {
           this.currentSection = this.currentSection - 1
         }, 100)

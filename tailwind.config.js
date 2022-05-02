@@ -22,6 +22,7 @@ module.exports = {
       12: '12px',
       15: '15px',
       16: '16px',
+      20: '20px',
       32: '32px',
       25: '25px',
       30: '30px',
@@ -65,6 +66,8 @@ module.exports = {
         'gray-2': '#727272',
         'gray-3': '#5A5A5A',
         'gray-4': '#C3C3C3',
+        'gray-5': '#333333',
+        'gray-6': '#5C585B',
         case: {
           1: '#FF9B80',
           'text-1': '#D74E28',
