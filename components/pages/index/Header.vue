@@ -64,13 +64,13 @@
 export default {
   name: 'Header',
   props: {
-    prevSection: {
-      type: Number,
-      default: 0,
-    },
     currentSection: {
       type: Number,
       default: 0,
+    },
+    scrollDirection: {
+      type: String,
+      default: 'down',
     },
   },
   data() {
@@ -95,11 +95,11 @@ export default {
       return this.$props.currentSection > 1
     },
   },
-  watch:{
-    currentSection(newValue){
+  watch: {
+    currentSection(newValue) {
       if (newValue === 1) this.$emit('changeColor', 'black')
-    }
-  }
+    },
+  },
 }
 </script>
 

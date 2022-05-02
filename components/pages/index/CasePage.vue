@@ -150,7 +150,7 @@
         <transition-group
           tag="div"
           class="relative caselist__image-wrapper"
-          :name="currentSection > prevSection ? 'bgappear' : 'bgappearreverse'"
+          :name="scrollDirection === 'down' ? 'bgappear' : 'bgappearreverse'"
         >
           <img
             v-for="n in cases.length"
@@ -184,9 +184,9 @@ export default {
       type: Number,
       required: true,
     },
-    prevSection: {
-      type: Number,
-      required: true,
+    scrollDirection: {
+      type: String,
+      default: 'down',
     },
   },
   data() {
@@ -361,7 +361,7 @@ export default {
 
   &-enter-active,
   &-leave-active {
-    transition: all 1000ms;
+    transition: all 950ms;
   }
   &-enter,
   &-leave-to {
@@ -379,7 +379,7 @@ export default {
 .bgappear {
   &-leave-active,
   &-enter-active {
-    transition: all 1.5s !important;
+    transition: all 950ms !important;
   }
   &-enter {
     transform: translateX(1200px) !important;
@@ -400,7 +400,7 @@ export default {
 .bgappearreverse {
   &-leave-active,
   &-enter-active {
-    transition: all 1.5s !important;
+    transition: all 950ms !important;
   }
   &-enter {
     transform: translateX(-2000px) !important;
@@ -421,7 +421,7 @@ export default {
 .linkappear {
   &-leave-active,
   &-enter-active {
-    transition: all 1000ms !important;
+    transition: all 950ms !important;
   }
   &-enter {
     opacity: 0;
@@ -473,7 +473,7 @@ export default {
 .text {
   &-enter-active,
   &-leave-active {
-    transition: opacity 440ms;
+    transition: opacity 270ms;
   }
   &-leave-active {
     opacity: 1 !important;
