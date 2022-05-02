@@ -154,10 +154,29 @@ export default {
   }
 
   &-down {
-    &-leave-active,
     &-enter-active,
-    &-leave-active *,
     &-enter-active * {
+      transition: all 2000ms;
+      .advantages__horizontal-line {
+        transform-origin: left;
+        transition: all 2000ms;
+      }
+      .advantages__vertical-line {
+        transform-origin: top;
+        transition: all 2000ms;
+      }
+      .advantages__block,
+      .advantages__headers {
+        transition: all 700ms;
+        transition-delay: 300ms;
+      }
+      .advantages__top-text {
+        transition: all 650ms;
+        transition-delay: 350ms;
+      }
+    }
+    &-leave-active,
+    &-leave-active * {
       transition: all 1000ms;
       .advantages__horizontal-line {
         transform-origin: left;
@@ -169,12 +188,12 @@ export default {
       }
       .advantages__block,
       .advantages__headers {
-        transition: all 700ms;
-        transition-delay: 500ms;
+        transition: all 500ms;
+        transition-delay: 100ms;
       }
       .advantages__top-text {
         transition: all 650ms;
-        transition-delay: 500ms;
+        transition-delay: 350ms;
       }
     }
     &-enter {
@@ -224,17 +243,17 @@ export default {
         transition: all 1000ms;
       }
       .advantages__vertical-line {
-        transform-origin: top;
+        transform-origin: bottom;
         transition: all 1000ms;
       }
       .advantages__block,
       .advantages__headers {
         transition: all 700ms;
-        transition-delay: 500ms;
+        transition-delay: 300ms;
       }
       .advantages__top-text {
         transition: all 650ms;
-        transition-delay: 500ms;
+        transition-delay: 350ms;
       }
     }
     &-enter {

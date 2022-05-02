@@ -90,12 +90,12 @@ export default {
       this.offScroll = true
       setTimeout(() => {
         this.offScroll = false
-      }, 1000)
+      }, 800)
       if (event.deltaY > 0) {
         this.scrollDirection = 'down'
         setTimeout(() => {
           this.currentSection += 1
-        }, 100)
+        }, 50)
       } else {
         this.scrollDirection = 'up'
         setTimeout(() => {

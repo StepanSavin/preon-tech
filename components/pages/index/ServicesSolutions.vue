@@ -164,7 +164,12 @@ export default {
     &-enter-active * {
       transition: all 1000ms;
       .solutions__image-cover {
-        transition-duration: 1000ms !important;
+        transition-duration: 1200ms !important;
+        transition-delay: 400ms;
+      }
+      .solutions__images-wrapper {
+        transition: all 900ms;
+        transition-delay: 100ms;
       }
     }
     &-leave-active {
@@ -181,7 +186,7 @@ export default {
 
     &-enter {
       .solutions__images-wrapper {
-        transform: translateY(70vh);
+        transform: translateY(100vh);
       }
       .solutions__top-text {
         opacity: 0;
@@ -213,10 +218,14 @@ export default {
     &-enter-active,
     &-leave-active *,
     &-enter-active * {
-      transition: all 600ms;
+      transition: all 1000ms;
       transition-delay: 100ms;
       .solutions__image-cover {
         transition-duration: 1000ms !important;
+      }
+      .solutions__images-wrapper {
+        transition: all 700ms;
+        transition-delay: 300ms;
       }
     }
     &-leave-active {
@@ -240,7 +249,6 @@ export default {
         transform: scaleY(0.1);
       }
       .solutions__image-cover {
-        bottom: 0 !important;
       }
       .solutions__text-block {
         opacity: 0;

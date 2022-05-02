@@ -192,7 +192,8 @@ export default {
     &-enter-active,
     &-enter-active * {
       .stack__block {
-        transition: all 600ms;
+        transition: all 1000ms;
+        transition-delay: 300ms;
       }
       .stack__top-text {
         transition: all 600ms;
@@ -211,7 +212,7 @@ export default {
 
     &-enter {
       .stack__block {
-        transform: translateY(100px);
+        transform: translateY(150px);
         opacity: 0;
       }
       .stack__top-text {
@@ -258,7 +259,7 @@ export default {
 
     &-enter {
       .stack__block {
-        transform: translateY(-100px);
+        transform: translateY(-150px);
         opacity: 0;
       }
       .stack__top-text {
