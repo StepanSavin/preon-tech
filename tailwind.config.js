@@ -2,7 +2,9 @@ module.exports = {
   important: true,
   purge: {
     content: ['./src/**/*.vue'],
-    options: {},
+    options: {
+      safelist: [/^text-case/, /^bg-process/, /^delay-/, /^z-/],
+    },
   },
   theme: {
     screens: {

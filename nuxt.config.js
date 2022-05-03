@@ -42,9 +42,4 @@ export default {
 
   build: {},
 
-  vue: {
-    config: {
-      publicPath: '/preon-tech/'
-    },
-  },
 }
