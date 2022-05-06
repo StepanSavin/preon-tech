@@ -4,21 +4,132 @@
   >
     <div
       v-if="isVisible"
-      class="processes w-full h-screen pt-32 pl-24 flex flex-col duration-1000"
+      class="
+        processes
+        w-full
+        h-screen
+        pt-32
+        pl-24
+        md:px-16
+        sm:px-8
+        flex flex-col
+        duration-1000
+      "
     >
       <div class="flex items-center processes__top-text">
         <p class="text-3xl text-white font-bold leading-10">Processes</p>
         <div class="flex items-center">
           <p class="text-white leading-5 processes__subtext">
             Speed and quality are achieved by unique design and development
-            <br />processes for it solutions. Automated project management
-            system <br />gives the customer access to real-time reporting of all
-            project details
+            <br class="sm:hidden" />processes for it solutions. Automated
+            project management system <br class="sm:hidden" />gives the customer
+            access to real-time reporting of all project details
           </p>
         </div>
       </div>
-      <div class="flex-1 flex gap-20 mt-8 processes__main-block">
-        <div class="flex-1 flex gap-4">
+      <div
+        class="
+          flex-1 flex
+          md:block
+          sm:block
+          gap-20
+          mt-8
+          md:mt-6
+          sm:mt-6
+          processes__main-block
+        "
+      >
+        <div
+          class="
+            processes__image-wrapper
+            md:w-full
+            sm:w-full
+            rounded-30
+            relative
+            hidden
+            sm:block
+            md:block
+          "
+        >
+          <div class="overflow-hidden h-full rounded-30">
+            <LazyImage
+              src="index/processes/process-md.png"
+              class="rounded-30 object-cover object-center"
+            />
+          </div>
+          <div
+            class="
+              processes__advantage
+              w-40
+              h-40
+              rounded-full
+              absolute
+              z-3
+              flex flex-col
+              justify-center
+              items-center
+              md:top-28 md:-left-14
+              sm:-top-10 sm:-left-6
+              bg-process-adv-1
+            "
+          >
+            <p class="text-white text-2xl font-medium leading-10">3 days</p>
+            <p
+              style="font-size: 10px"
+              class="text-white font-medium leading-3 text-center"
+            >
+              or evaluation and road map
+            </p>
+          </div>
+        </div>
+        <div class="mt-6 flex-col gap-4 sm:gap-2 hidden sm:flex md:flex">
+          <transition v-for="process in processes" :key="process.title">
+            <div class="max-h-20">
+              <div
+                class="
+                  w-full
+                  flex
+                  justify-between
+                  items-center
+                  h-20
+                  bg-gray-2
+                  rounded-8
+                  px-4
+                "
+              >
+                <div class="text-white">
+                  <p class="leading-5 font-medium">{{ process.date }}</p>
+                  <p class="font-semibold text-xl leading-6 mt-1">
+                    {{ process.title }}
+                  </p>
+                </div>
+                <div class="flex gap-2">
+                  <p class="text-yellow-1 text-xl leading-6 font-medium">
+                    Details
+                  </p>
+                  <div
+                    class="
+                      flex
+                      bg-yellow-1
+                      w-8
+                      h-8
+                      rounded-full
+                      justify-center
+                      items-center
+                    "
+                  >
+                    <LazyImage
+                      width="14"
+                      height="14"
+                      src="index/processes/arrow-down.svg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
+        <div class="flex-1 flex gap-4 md:hidden sm:hidden">
           <div class="w-8 h-full">
             <div class="w-px h-full mx-auto bg-white"></div>
           </div>
@@ -66,7 +177,15 @@
             </div>
           </div>
         </div>
-        <div class="processes__image-wrapper relative">
+        <div
+          class="
+            processes__image-wrapper
+            md:w-full
+            sm:w-full sm:hidden
+            relative
+            md:hidden
+          "
+        >
           <transition-group tag="div" name="process-images">
             <img
               v-for="n in processes.length"
@@ -95,6 +214,7 @@
                 flex flex-col
                 justify-center
                 items-center
+                md:top-28 md:-left-14
               "
               :class="`bg-process-adv-${section}`"
             >
@@ -241,9 +361,21 @@ export default {
 .processes {
   &__subtext {
     margin-left: 260px;
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      margin-left: 141px;
+    }
+    @media (max-width: 1023px) {
+      margin-left: 70px;
+    }
   }
   &__image-wrapper {
     width: 395px;
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      height: 314px;
+    }
+    @media (max-width: 1023px) {
+      height: 220px;
+    }
   }
   &__active-process {
     top: calc(100% - 200px) !important;

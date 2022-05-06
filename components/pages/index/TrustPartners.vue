@@ -3,13 +3,23 @@
     :name="this.scrollDirection === 'down' ? 'partners' : 'partners-reverse'"
   >
     <div
-      v-show="!isAbove && !isBelow"
-      class="partners w-full h-screen pt-32 px-24"
+      v-if="!isAbove && !isBelow"
+      class="
+        partners
+        w-full
+        h-screen
+        pt-32
+        px-24
+        md:px-16 md:pb-32 md:flex
+        sm:px-8 sm:pb-32 sm:flex
+        flex-col
+        justify-between
+      "
     >
-      <div class="flex gap-44 items-center">
+      <div class="flex gap-44 md:gap-16 sm:gap-4 items-center">
         <p class="text-3xl text-white font-bold leading-10">We are trusted</p>
         <p class="text-white leading-5">
-          We successfully work with the largest corporations and <br />
+          We successfully work with the largest corporations and <br class="sm:hidden" />
           startups from around the world
         </p>
       </div>

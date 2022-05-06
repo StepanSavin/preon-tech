@@ -3,8 +3,20 @@
     :name="scrollDirection === 'down' ? 'reviews-down' : 'reviews-up'"
   >
     <div
+      ref="mainContainer"
       v-if="isVisible"
-      class="reviews w-full h-screen z-20 text-white pt-32 px-24 flex flex-col"
+      class="
+        reviews
+        w-full
+        h-screen
+        z-20
+        text-white
+        pt-32
+        px-24
+        md:px-16
+        sm:px-16
+        flex flex-col
+      "
     >
       <div class="flex items-center reviews__top-text">
         <p class="text-3xl text-black font-bold leading-10">Reviews</p>
@@ -15,7 +27,7 @@
           </p>
         </div>
       </div>
-      <div class="mt-10 flex gap-4 items-center reviews__pagination">
+      <div class="mt-10 md:mt-12 sm:mt-12 flex gap-4 items-center reviews__pagination">
         <p class="text-black text-xl leading-6">{{ currentSlide }}</p>
         <div style="width: 260px" class="relative h-px bg-white">
           <div
@@ -52,7 +64,7 @@
           />
         </div>
       </div>
-      <div class="mt-8 w-full reviews__slider">
+      <div class="mt-8 md:mt-12 sm:mt-12 w-full reviews__slider">
         <swiper
           ref="reviewSwiper"
           :options="options"
@@ -60,7 +72,7 @@
           @slideChange="handleSlideChange"
         >
           <swiper-slide v-for="n in 7" :key="n">
-            <div class="flex gap-8">
+            <div class="flex gap-8 md:gap-12 sm:gap-12 sm:flex-col md:flex-col">
               <div class="flex-1 relative">
                 <div class="flex items-center gap-6">
                   <div
@@ -97,7 +109,7 @@
                   Elementum, egestas vel, inerat urna. Proin morbi ultricies
                   ornare ornare aliquam a proin. Elementum, egestas vel, in...
                 </p>
-                <div class="mt-2.5 flex gap-2 items-center">
+                <div class="mt-2.5 flex gap-2 items-center md:hidden sm:hidden">
                   <p class="text-black text-xl font-medium leading-6">
                     Read more
                   </p>
@@ -123,7 +135,7 @@
                   width="174"
                   height="34"
                   src="index/reviews/uralsib-icon.png"
-                  class="absolute left-0 bottom-0"
+                  class="absolute md:static sm:static mt-10 left-0 bottom-0"
                 />
               </div>
               <div
@@ -134,27 +146,64 @@
                   pb-12
                   rounded-20
                   bg-gray-2
+                  md:flex md:w-full md:pb-10
+                  md:gap-32
+                  sm:flex sm:w-full sm:pb-10 sm:gap-32
                 "
               >
-                <div class="flex items-center gap-2">
-                  <LazyImage
-                    width="32"
-                    height="32"
-                    src="index/reviews/russia-icon.png"
-                  />
-                  <p class="text-white text-xl leading-6 font-medium">Russia</p>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <LazyImage
+                      width="32"
+                      height="32"
+                      src="index/reviews/russia-icon.png"
+                    />
+                    <p class="text-white text-xl leading-6 font-medium">
+                      Russia
+                    </p>
+                  </div>
+                  <p
+                    class="
+                      mt-10
+                      text-white
+                      uppercase
+                      text-xs
+                      leading-4
+                      font-bold
+                    "
+                  >
+                    Project Summary
+                  </p>
+                  <p class="mt-2 text-white leading-5 font-medium">
+                    Lorem ipsum dolor sit amet, consectetur
+                  </p>
+                  <div class="mt-8 hidden md:block sm:block">
+                    <p class="text-white text-xs font-bold leading-4 uppercase">
+                      Technologies
+                    </p>
+                    <div class="mt-4 flex gap-2 flex-wrap w-full">
+                      <div
+                        v-for="tag in slides[0].techs"
+                        :key="tag"
+                        class="
+                          rounded-60
+                          reviews__tag
+                          text-sm text-black
+                          font-bold
+                          leading-4
+                          py-1.5
+                          px-3
+                        "
+                      >
+                        {{ tag }}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p
-                  class="mt-10 text-white uppercase text-xs leading-4 font-bold"
-                >
-                  Project Summary
-                </p>
-                <p class="mt-2 text-white leading-5 font-medium">
-                  Lorem ipsum dolor sit amet, consectetur
-                </p>
                 <div
                   class="
                     bg-white
+                    reviews__grid
                     mt-8
                     rounded-10
                     w-full
@@ -185,7 +234,7 @@
                     <p class="mt-1 leading-5 text-black">{{ block.text }}</p>
                   </div>
                 </div>
-                <div class="mt-10">
+                <div class="mt-10 md:hidden sm:hidden">
                   <p class="text-white text-xs font-bold leading-4 uppercase">
                     Technologies
                   </p>
@@ -232,6 +281,12 @@ export default {
   },
   data() {
     return {
+      touchStartX: 0,
+      touchEndX: 0,
+      touchStartY: 0,
+      touchEndY: 0,
+      diffX: 0,
+      diffY: 0,
       options: {
         slidesPerView: 1,
         spaceBetween: 150,
@@ -268,13 +323,22 @@ export default {
       this.swiper = swiper
     },
   },
+  mounted() {},
 }
 </script>
 
 <style lang="scss" scoped>
 .reviews {
+  &__grid {
+    @media (max-width: 1199px) and(min-width:1024px) {
+      width: 360px !important;
+    }
+  }
   &__subtext {
     margin-left: 288px;
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      margin-left: 169px;
+    }
   }
   &__client-card {
     width: 33%;

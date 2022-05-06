@@ -1,62 +1,66 @@
 <template>
-  <div
-    :style="{ 'background-color': bgColor }"
-    class="relative h-screen main-container duration-1000"
-  >
-    <Header
-      class="absolute top-0 left-0"
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-    />
-    <CasePage
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
-    <TrustPartners
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
-    <ServicesSolutions
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
-    <AdvantagesList
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
-    <StackList
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      class="absolute top-0 left-0"
-      @changeColor="changeColor"
-    />
-    <ProcessesList
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      class="absolute top-0 left-0"
-      @changeColor="changeColor"
-    />
-    <DealsList
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
-    <ReviewsList
-      :currentSection="currentSection"
-      :scrollDirection="scrollDirection"
-      @changeColor="changeColor"
-      class="absolute top-0 left-0"
-    />
+  <div>
+    <div
+      :style="{ 'background-color': bgColor }"
+      class="relative h-screen main-container duration-1000"
+    >
+      <Header
+        class="absolute top-0 left-0"
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        @click.native="currentSection = 20"
+      />
+      <CasePage
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        class="absolute top-0 left-0"
+      />
+      <TrustPartners
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        class="absolute top-0 left-0"
+      />
+      <ServicesSolutions
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        class="absolute top-0 left-0"
+      />
+      <AdvantagesList
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        class="absolute top-0 left-0"
+      />
+      <StackList
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        class="absolute top-0 left-0"
+        @changeColor="changeColor"
+      />
+      <ProcessesList
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        class="absolute top-0 left-0"
+        @changeColor="changeColor"
+      />
+      <DealsList
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        class="absolute top-0 left-0"
+      />
+      <ReviewsList
+        :currentSection="currentSection"
+        :scrollDirection="scrollDirection"
+        @changeColor="changeColor"
+        @leaveUp="mess"
+        class="absolute top-0 left-0"
+      />
+    </div>
   </div>
 </template>
 
@@ -90,10 +94,17 @@ export default {
       bgColor: 'black',
       offScroll: false,
       scrollDirection: 'down',
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0,
+      diffX: 0,
+      diffY: 0,
     }
   },
   mounted() {
     window.addEventListener('wheel', (event) => {
+      if (Math.abs(event.wheelDelta) < 50) return
       if (this.offScroll | event.ctrlKey) return
 
       if (event.deltaY > 0) {
@@ -102,7 +113,7 @@ export default {
         this.offScroll = true
         setTimeout(() => {
           this.offScroll = false
-        }, 800)
+        }, 1000)
         setTimeout(() => {
           this.currentSection += 1
         }, 50)
@@ -118,10 +129,41 @@ export default {
         }, 100)
       }
     })
+
+    window.addEventListener('touchstart', (event) => {
+      this.touchStartX = event.changedTouches[0].screenX
+      this.touchStartY = event.changedTouches[0].screenY
+    })
+    window.addEventListener('touchend', (event) => {
+      this.touchEndX = event.changedTouches[0].screenX
+      this.touchEndY = event.changedTouches[0].screenY
+      this.diffX = Math.abs(this.touchEndX - this.touchStartX)
+      this.diffY = Math.abs(this.touchEndY - this.touchStartY)
+      if (this.diffY > this.diffX && this.touchEndY > this.touchStartY) {
+        this.scrollDirection = 'up'
+        if (this.currentSection === 1) return
+        setTimeout(() => {
+          if (this.currentSection === 9)
+            this.currentSection = this.currentSection - 7
+          else this.currentSection = this.currentSection - 1
+        }, 100)
+      }
+      if (this.diffY > this.diffX && this.touchEndY < this.touchStartY) {
+        this.scrollDirection = 'down'
+        if (this.currentSection === 22) return
+        setTimeout(() => {
+          if (this.currentSection === 2) this.currentSection += 7
+          else this.currentSection += 1
+        }, 100)
+      }
+    })
   },
   methods: {
     changeColor(value) {
       this.bgColor = value
+    },
+    mess() {
+      console.log('leaveUp')
     },
   },
 }

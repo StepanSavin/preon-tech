@@ -10,19 +10,23 @@
         h-screen
         pt-32
         px-24
+        md:px-16
+        sm:px-8
         flex flex-col
         justify-between
         gap-6
+        md:gap-0
+        sm:gap-0
       "
     >
       <div class="flex items-center solutions__top-text">
         <p class="text-3xl text-white font-bold leading-10">Services</p>
-        <p class="text-white leading-5 solutions__subtext">
+        <p class="text-white leading-5 solutions__subtext sm:ml-24">
           Proven experience in using advanced development<br />
           technologies and artificial intelligence models
         </p>
       </div>
-      <div class="mt-6 solutions__images-wrapper flex flex-1">
+      <div class="mt-6 solutions__images-wrapper flex md:flex-col sm:flex-col flex-1">
         <div
           v-for="(solution, index) in solutions"
           :key="solution.title"
@@ -31,11 +35,19 @@
             relative
             flex-1
             pt-8
+            md:pt-9
+            md:px-8
             pb-10
+            md:pb-6
+            sm:p-4
             px-4
             flex flex-col
             justify-between
-            solutions__image
+            solutions__image 
+            md:flex-row
+            sm:flex-row
+            md:items-end
+            sm:items-end
           "
           :class="`solutions__image_${index + 1}`"
         >
@@ -58,20 +70,29 @@
             width="417"
             height="883"
             :src="`index/solutions/${index + 1}.png`"
-            class="object-fit absolute top-0 left-0 w-full"
+            class="object-fit absolute top-0 left-0 md:-top-32 sm:-top-32 w-full"
           />
-          <p class="text-white text-4xl leading-15 font-medium relative">
+          <p
+            class="
+              text-white text-4xl
+              leading-15
+              font-medium
+              relative
+              md:order-1
+              sm:order-1
+            "
+          >
             {{ '0' + (index + 1) }}
           </p>
           <div class="z-5 solutions__text-block">
-            <p class="font-medium text-4xl text-white leading-15">
+            <p class="font-medium text-4xl sm:text-3xl sm:leading-10 text-white leading-15">
               {{ solution.title }}
             </p>
             <div class="mt-4">
               <p
                 v-for="item in solution.list"
                 :key="item"
-                class="mt-2 text-white leading-6 text-xl"
+                class="mt-2 text-white leading-6 text-xl sm:text-base sm:mt-0"
               >
                 {{ item }}
               </p>
@@ -149,12 +170,24 @@ export default {
 .solutions {
   &__subtext {
     margin-left: 288px;
+    @media (max-width: 1199px) {
+      margin-left: 169px;
+    }
   }
   &__images-wrapper {
     max-height: 883px;
+    @media (max-width: 1199px) {
+      max-height: 1169px;
+    }
+    @media(max-width:1023px){
+      max-height: 936px;
+    }
   }
   &__text-block {
     min-height: 322px;
+    @media(max-width: 1023px){
+      min-height: unset;
+    }
   }
 
   &-right {

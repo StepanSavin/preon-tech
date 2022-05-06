@@ -1,15 +1,21 @@
 <template>
   <transition name="caselist">
     <div
-      v-if="!isAbove"
+      v-show="!isAbove"
       class="
         w-full
         h-screen
         xs:h-10
         pt-24
+        md:pt-32
+        sm:pt-28
         pb-14
+        md:pb-16
+        sm:pb-12
         pr-6
         pl-24
+        md:px-16
+        sm:px-8
         transition-all
         duration-1000
         xs:static
@@ -17,7 +23,9 @@
       "
       :class="[{ caselist_below: isBelow }]"
     >
-      <div class="w-full flex gap-4 justify-between xs:hidden">
+      <div
+        class="w-full flex gap-4 justify-between xs:hidden md:hidden sm:hidden"
+      >
         <div
           class="caselist__text-block flex flex-col justify-between relative"
         >
@@ -172,6 +180,146 @@
           />
         </transition-group>
       </div>
+      <div class="hidden md:block sm:block flex flex-col">
+        <div class="flex items-center justify-between">
+          <p class="text-2xl text-white leading-10 font-bold">Selected Works</p>
+          <div
+            class="flex items-center gap-2 mt-4 transition-all duration-1000"
+          >
+            <p
+              class="text-xl leading-6 transition-all duration-1000"
+              :class="`text-case-text-${currentSlide}`"
+            >
+              {{ currentSlide }}
+            </p>
+            <div class="w-32 h-px bg-white relative">
+              <div
+                :style="{ transform: `scaleX(${currentSlide / 7})` }"
+                class="
+                  absolute
+                  top-0
+                  left-0
+                  w-full
+                  h-full
+                  origin-left
+                  transition-all
+                  duration-1000
+                "
+                :class="`bg-case-text-${currentSlide}`"
+              ></div>
+            </div>
+            <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="mt-8 w-full">
+            <swiper
+              :options="options"
+              class="w-full overflow-visible"
+              @slideChange="handleSlideChange"
+            >
+              <swiper-slide
+                v-for="(caseSlide, index) in cases"
+                :key="caseSlide.title"
+              >
+                <a class="flex gap-2 items-center mt-4">
+                  <div
+                    class="
+                      h-5
+                      w-5
+                      rounded-full
+                      flex
+                      justify-center
+                      items-center
+                    "
+                    :class="`bg-case-text-${currentSlide}`"
+                  >
+                    <LazyImage
+                      width="8"
+                      height="8"
+                      src="index/cases/arrow-icon.svg"
+                    />
+                  </div>
+                  <p
+                    class="text-xl leading-6 transition-all duration-1000"
+                    :class="`text-case-text-${currentSlide}`"
+                  >
+                    {{ caseSlide.link }}
+                  </p>
+                </a>
+                <div class="mt-6 sm:mt-4 flex gap-20 sm:gap-12 flex-col justify-between">
+                  <div class="relative">
+                    <LazyImage
+                      width="896"
+                      height="678"
+                      :src="`index/cases/${index + 1}.png`"
+                      class="w-full"
+                    />
+                  </div>
+                  <div class="w-full relative">
+                    <div class="caselist__title-block absolute left-0">
+                      <p class="text-white font-medium caselist__title">
+                        {{ caseSlide.title }}
+                      </p>
+                      <p
+                        class="font-medium caselist__subtitle"
+                        :class="`text-case-text-${index + 1}`"
+                      >
+                        {{ caseSlide.subtitle }}
+                      </p>
+                    </div>
+                    <p class="text-white text-xl leading-6 mt-6 sm:mt-0 font-medium">
+                      <span class="font-bold">
+                        {{ caseSlide.advantage.title }}
+                      </span>
+                      {{ caseSlide.advantage.text }}
+                    </p>
+                    <p class="mt-8 leading-5 text-white font-medium">
+                      <span class="font-bold">Stack:</span>
+                      {{ caseSlide.stack }}
+                    </p>
+                    <p class="mt-2 text-white leading-5 font-medium relative">
+                      <span class="font-bold">Task: </span>
+                      {{ caseSlide.task }}
+                    </p>
+                    <p
+                      class="
+                        mt-8
+                        text-xl
+                        leading-6
+                        font-medium
+                        text-white
+                        leading-5
+                        pb-2
+                      "
+                    >
+                      {{ caseSlide.present }}
+                    </p>
+                    <button
+                      class="
+                        bg-white
+                        rounded-100
+                        flex
+                        justify-center
+                        items-center
+                        text-xl
+                        leading-6
+                        font-medium
+                        h-12
+                        px-6
+                        mt-10
+                        sm:mt-8
+                      "
+                    >
+                      More details
+                    </button>
+                  </div>
+                </div>
+              </swiper-slide>
+            </swiper>
+          </div>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -191,6 +339,18 @@ export default {
   },
   data() {
     return {
+      options: {
+        slidesPerView: 1,
+        effect: 'coverflow',
+        spaceBetween: 16,
+        coverflowEffect: {
+          rotate: 30,
+          slideShadows: false,
+        },
+        watchSlidesVisibility: true,
+        watchOverflow: true,
+      },
+      currentSlide: 1,
       tags: ['App & Web', 'CRM, ERP, MDM, BPMS', 'Machine Learning'],
       cases: [
         {
@@ -287,8 +447,10 @@ export default {
       ],
     }
   },
-  mounted() {
-    this.$emit('change-color', '#FF9B80')
+  methods: {
+    handleSlideChange(swiper) {
+      this.currentSlide = swiper.activeIndex + 1
+    },
   },
   watch: {
     currentSection(newValue) {
@@ -312,6 +474,31 @@ export default {
           this.$emit('changeColor', '#F2C459')
           break
         case 8:
+          this.$emit('changeColor', '#509BFD')
+          break
+      }
+    },
+    currentSlide(newValue) {
+      switch (newValue) {
+        case 1:
+          this.$emit('changeColor', '#FF9B80')
+          return
+        case 2:
+          this.$emit('changeColor', '#EBA35D')
+          return
+        case 3:
+          this.$emit('changeColor', '#8479FF')
+          break
+        case 4:
+          this.$emit('changeColor', '#E6CDB6')
+          break
+        case 5:
+          this.$emit('changeColor', '#98B2FF')
+          break
+        case 6:
+          this.$emit('changeColor', '#F2C459')
+          break
+        case 7:
           this.$emit('changeColor', '#509BFD')
           break
       }
@@ -344,10 +531,35 @@ export default {
     max-width: unset;
     width: 2000px;
     height: 140px;
+    @media (max-width: 1199px) {
+      top: -174px;
+    }
+    @media (max-width: 1023px) {
+      top: -113px;
+    }
+  }
+
+  &__title {
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      font-size: 80px;
+      line-height: 80px;
+    }
+    @media (max-width: 1023px) {
+      font-size: 60px;
+      line-height: 60px;
+    }
   }
 
   &__subtitle {
     font-size: 70px;
+    @media (max-width: 1199px) {
+      font-size: 70px;
+      line-height: 70px;
+    }
+    @media (max-width: 1023px) {
+      font-size: 50px;
+      line-height: 50px;
+    }
   }
 
   &__taggroup {
@@ -485,6 +697,26 @@ export default {
   &-enter,
   &-leave-to {
     opacity: 0;
+  }
+}
+
+.swiper-slide-next,
+.swiper-slide-prev {
+  img {
+    transform: scale(0.95) !important;
+  }
+  p,
+  button {
+    opacity: 0;
+  }
+}
+.swiper-slide {
+  img {
+    transition: transform 600ms linear !important;
+  }
+  p,
+  button {
+    transition: opacity 1000ms !important;
   }
 }
 </style>

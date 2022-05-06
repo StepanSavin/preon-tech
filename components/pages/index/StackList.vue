@@ -10,6 +10,8 @@
         h-screen
         pt-32
         px-24
+        md:px-16
+        sm:px-8
         flex flex-col
         duration-1000
       "
@@ -24,6 +26,8 @@
           h-full
           w-full
           grid grid-cols-3
+          md:hidden
+          sm:hidden
         "
       >
         <div v-for="n in 3" :key="n" class="w-px bg-gray-2 h-full"></div>
@@ -34,15 +38,29 @@
         src="index/stack/stack-bg.png"
         class="absolute right-0 stack__bg-image"
       />
-      <div class="grid grid-cols-3 items-center stack__top-text">
+      <div
+        class="grid grid-cols-3 sm:flex sm:gap-4 items-center stack__top-text"
+      >
         <p class="text-3xl text-white font-bold leading-10">Technologies</p>
         <p style="min-width: 488px" class="text-white leading-5">
           Proven track record of using advanced development <br />technology and
           ML models
         </p>
       </div>
-      <div class="mt-6 grid grid-cols-3 z-5 stack__main-block">
-        <div v-for="(col, index) in stack" :key="index" class="mb-6">
+      <div
+        class="
+          mt-6
+          md:mt-12
+          sm:mt-12
+          grid grid-cols-3
+          md:grid-cols-2
+          sm:grid-cols-2 sm:gap-4
+          md:gap-4
+          z-5
+          stack__main-block
+        "
+      >
+        <div v-for="(col, index) in formattedStack" :key="index" class="mb-6">
           <div
             :style="{ 'transition-delay': `${index * 150}ms` }"
             v-for="(block, index) in col"
@@ -82,89 +100,84 @@ export default {
   },
   data() {
     return {
+      windowWidth: 1024,
       stack: [
-        [
-          {
-            title: 'Frontend',
-            technologies: [
-              'React/Next js',
-              'React Material UI',
-              'Styled-components и makeStyles от Material UI',
-              'TypeScript',
-              'ESLint/Prettier',
-              'Docker',
-            ],
-          },
-          {
-            title: 'Backend',
-            technologies: [
-              'PHP',
-              'PostgreSQL',
-              'Laravel',
-              'ElasticSearch',
-              'MongoDB',
-              'C, C#',
-              'Python',
-            ],
-          },
-          {
-            title: 'The server part',
-            technologies: [
-              'Terraform',
-              'GitHub',
-              'AWS',
-              'Docker в Fargate',
-              'C#',
-            ],
-          },
-        ],
-        [
-          {
-            title: 'ML',
-            technologies: [
-              'Logistic regression',
-              'Linear Regression',
-              'KNN K Nearest Neighbors',
-              'Reference Vector Method (SVMs)',
-              'Decision Trees & Random Forests',
-              'Clustering',
-              'DBSCAN Clustering',
-              'Neural Networks',
-            ],
-          },
-          {
-            title: 'DML',
-            technologies: [
-              'DNN',
-              'CAP',
-              'VGG-19',
-              'Inceptionv3',
-              'ResNet50',
-              'EfficientNet',
-            ],
-          },
-          {
-            title: 'Biometric / Cyber security',
-            technologies: ['Opencv', 'Tensor Flow'],
-          },
-        ],
-        [
-          {
-            title: 'NFT / AR / VR',
-            technologies: ['Unity', 'Vuforia', 'Wikitude', 'Arcore'],
-          },
-          {
-            title: 'Blockchain & Crypto',
-            technologies: [
-              'ETH',
-              'TRON',
-              'BTC',
-              'Tezos',
-              'NEAR protocol',
-              'C-Chain (Avalanche)',
-            ],
-          },
-        ],
+        {
+          title: 'Frontend',
+          technologies: [
+            'React/Next js',
+            'React Material UI',
+            'Styled-components и makeStyles from Material UI',
+            'TypeScript',
+            'ESLint/Prettier',
+            'Docker',
+          ],
+        },
+        {
+          title: 'Backend',
+          technologies: [
+            'PHP',
+            'PostgreSQL',
+            'Laravel',
+            'ElasticSearch',
+            'MongoDB',
+            'C, C#',
+            'Python',
+          ],
+        },
+        {
+          title: 'The server part',
+          technologies: [
+            'Terraform',
+            'GitHub',
+            'AWS',
+            'Docker в Fargate',
+            'C#',
+          ],
+        },
+        {
+          title: 'ML',
+          technologies: [
+            'Logistic regression',
+            'Linear Regression',
+            'KNN K Nearest Neighbors',
+            'Reference Vector Method (SVMs)',
+            'Decision Trees & Random Forests',
+            'Clustering',
+            'DBSCAN Clustering',
+            'Neural Networks',
+          ],
+        },
+        {
+          title: 'DML',
+          technologies: [
+            'DNN',
+            'CAP',
+            'VGG-19',
+            'Inceptionv3',
+            'ResNet50',
+            'EfficientNet',
+          ],
+        },
+        {
+          title: 'Biometric / Cyber security',
+          technologies: ['Opencv', 'Tensor Flow'],
+        },
+        {
+          title: 'NFT / AR / VR',
+          technologies: ['Unity', 'Vuforia', 'Wikitude', 'Arcore'],
+        },
+        {
+          title: 'Blockchain & Crypto',
+          technologies: [
+            'ETH',
+            'TRON',
+            'BTC',
+            'Tezos',
+            'NEAR protocol',
+            'C-Chain (Avalanche)',
+          ],
+        },
       ],
     }
   },
@@ -172,11 +185,48 @@ export default {
     isVisible() {
       return this.$props.currentSection === 12
     },
+    formattedStack() {
+      const array = []
+      if (this.windowWidth < 1200) {
+        array.push([])
+        array.push([])
+        array[0].push(this.stack[0])
+        array[0].push(this.stack[1])
+        array[0].push(this.stack[2])
+        array[0].push(this.stack[6])
+        array[1].push(this.stack[3])
+        array[1].push(this.stack[4])
+        array[1].push(this.stack[5])
+        array[1].push(this.stack[7])
+      } else {
+        array.push([])
+        array.push([])
+        array.push([])
+        array[0].push(this.stack[0])
+        array[0].push(this.stack[1])
+        array[0].push(this.stack[2])
+        array[1].push(this.stack[3])
+        array[1].push(this.stack[4])
+        array[1].push(this.stack[5])
+        array[2].push(this.stack[6])
+        array[2].push(this.stack[7])
+      }
+      return array
+    },
+  },
+  methods: {
+    defineWindowWidth() {
+      this.windowWidth = window.innerWidth
+    },
   },
   watch: {
     currentSection(value) {
       if (value === 12) this.$emit('changeColor', 'black')
     },
+  },
+  mounted() {
+    this.defineWindowWidth()
+    window.addEventListener('resize', this.defineWindowWidth)
   },
 }
 </script>

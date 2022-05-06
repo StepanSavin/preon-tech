@@ -8,16 +8,29 @@
         h-screen
         pt-32
         pl-24
+        md:px-16
+        sm:px-8
         pb-12
+        md:pb-16
+        sm:pb-8
         flex flex-col
         duration-1000
       "
     >
       <div class="flex flex-1 gap-8">
         <div class="flex-1 flex flex-col w-full">
-          <div class="flex items-center justify-between deals__top-text">
+          <div
+            class="
+              flex
+              items-center
+              justify-between
+              md:justify-start
+              sm:justify-start
+              deals__top-text
+            "
+          >
             <p class="text-3xl text-white font-bold leading-10">Super Deals</p>
-            <div class="flex items-center">
+            <div class="flex items-center md:ml-28 sm:ml-10">
               <p class="text-white leading-5">
                 For the company's first year of operation in 2021
               </p>
@@ -32,10 +45,24 @@
               relative
               flex flex-col
               justify-end
+              md:justify-between
+              sm:justify-between
             "
           >
             <div
-              class="absolute top-0 left-0 flex flex-col w-3 gap-2 items-center"
+              class="
+                absolute
+                top-0
+                left-0
+                flex flex-col
+                w-3
+                gap-2
+                items-center
+                z-5
+                md:top-8
+                sm:top-8 sm:left-10
+                md:left-10
+              "
             >
               <p class="text-yellow-1 text-xl leading-6">{{ section }}</p>
               <div class="w-px h-24 bg-white relative">
@@ -55,6 +82,31 @@
               </div>
               <p class="text-white text-xl leading-6">3</p>
             </div>
+
+            <transition-group
+              tag="div"
+              class="
+                deals__image-wrapper
+                md:w-full
+                sm:w-full
+                relative
+                rounded-l-45
+                hidden
+                md:block
+                sm:block
+                sm:overflow-hidden
+                md:overflow-hidden
+                rounded-30
+              "
+              name="deals-images"
+            >
+              <img
+                v-for="n in deals.length"
+                :key="n + `${section}`"
+                :src="require(`@/assets/images/index/deals/${section}-md.png`)"
+                class="absolute object-cover w-full top-0 left-0 rounded-l-45"
+              />
+            </transition-group>
             <transition name="deals-text">
               <div :key="section" class="w-full mb-12 pr-20">
                 <div class="font-semibold text-white leading-5 relative w-max">
@@ -98,7 +150,7 @@
         </div>
         <transition-group
           tag="div"
-          class="deals__image-wrapper relative rounded-l-45"
+          class="deals__image-wrapper relative rounded-l-45 md:hidden sm:hidden"
           name="deals-images"
         >
           <img
@@ -190,6 +242,12 @@ export default {
 .deals {
   &__image-wrapper {
     width: 400px;
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      height: 600px;
+    }
+    @media (max-width: 1023px) {
+      height: 474px;
+    }
   }
 }
 
@@ -226,6 +284,13 @@ export default {
   }
   &-enter {
     transform: translateY(100vh);
+    @media (max-width: 1199px) and (min-width: 1024px) {
+    }
+  }
+  &-leave-to {
+    @media (max-width: 1199px) and (min-width: 1024px) {
+      opacity: 0 !important;
+    }
   }
 }
 
