@@ -520,7 +520,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .caselist {
   &__text-block {
     max-width: 309px;
