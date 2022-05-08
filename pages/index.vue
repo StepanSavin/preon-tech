@@ -4,15 +4,13 @@
       :style="{ 'background-color': bgColor }"
       class="relative h-screen xs:h-auto duration-1000 overflow-hidden xs:hidden"
     >
-      <Header
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        @scrollDown="scrollDown"
-      />
+      <Header :currentSection="currentSection" :scrollDirection="scrollDirection" :order="1" @scrollDown="scrollDown" />
       <CasePage
         :currentSection="currentSection"
         :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
+        :order="2"
+        @scrollDown="scrollDown"
+        @scrollUp="scrollUp"
       />
       <TrustPartners
         :currentSection="currentSection"
@@ -29,26 +27,14 @@
         :scrollDirection="scrollDirection"
         class="absolute top-0 left-0"
       />
-      <StackList
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
-      />
+      <StackList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
       <ProcessesList
         :currentSection="currentSection"
         :scrollDirection="scrollDirection"
         class="absolute top-0 left-0"
       />
-      <DealsList
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
-      />
-      <ReviewsList
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
-      />
+      <DealsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
+      <ReviewsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
     </div>
     <IndexMobile class="hidden xs:block" />
   </div>
@@ -84,7 +70,6 @@ export default {
   data() {
     return {
       currentSection: 1,
-      offScroll: false,
       scrollDirection: 'down',
       touchStartX: 0,
       touchStartY: 0,
@@ -102,6 +87,9 @@ export default {
   methods: {
     scrollDown() {
       this.currentSection += 1
+    },
+    scrollUp() {
+      this.currentSection = this.currentSection - 1
     },
   },
 }

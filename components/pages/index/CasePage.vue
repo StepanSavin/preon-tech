@@ -1,102 +1,59 @@
 <template>
   <transition name="caselist">
-    <div
-      v-show="!isAbove"
-      class="
-        w-full
-        h-screen
-        xs:h-10
-        pt-24
-        md:pt-32
-        sm:pt-28
-        pb-14
-        md:pb-16
-        sm:pb-12
-        pr-6
-        pl-24
-        md:px-16
-        sm:px-8
-        transition-all
-        duration-1000
-        xs:static
-        sm:static
-      "
-      :class="[{ caselist_below: isBelow }]"
-    >
+    <div v-show="isVisible" class="w-full h-screen absolute top-0 left-0">
       <div
-        class="w-full flex gap-4 justify-between xs:hidden md:hidden sm:hidden"
+        ref="mainContainer"
+        class="
+          w-full
+          h-full
+          md:block
+          sm:block
+          flex
+          items-end
+          pt-32
+          pb-14
+          pl-24
+          pr-6
+          xl:pr-8
+          text-white
+          md:px-16 md:pt-28 md:pb-14
+          sm:px-8 sm:pt-28 sm:pb-12
+        "
       >
-        <div
-          class="caselist__text-block flex flex-col justify-between relative"
-        >
-          <div class="relative z-5">
-            <p class="font-bold text-white text-3xl leading-10">
-              Selected Works
-            </p>
-            <transition name="linkappear">
-              <a :key="section" class="flex gap-2 items-center mt-4">
+        <div class="h-full w-full flex gap-4 md:hidden sm:hidden">
+          <div class="caselist__info-block flex flex-col justify-between">
+            <div class="w-full">
+              <p class="text-3xl leading-10 font-bold">Selected Works</p>
+              <a :key="currentSlide" class="flex gap-2 items-center mt-4">
                 <div
-                  class="
-                    h-5
-                    w-5
-                    rounded-full
-                    flex
-                    justify-center
-                    items-center
-                    transition-all
-                    duration-1000
-                  "
-                  :class="`bg-case-text-${section}`"
+                  class="h-5 w-5 rounded-full flex justify-center items-center transition-all duration-1000"
+                  :class="`bg-case-text-${currentSlide}`"
                 >
-                  <LazyImage
-                    width="8"
-                    height="8"
-                    src="index/cases/arrow-icon.svg"
-                  />
+                  <LazyImage width="8" height="8" src="index/cases/arrow-icon.svg" />
                 </div>
-                <p
-                  class="text-xl leading-6 transition-all duration-1000"
-                  :class="`text-case-text-${section}`"
-                >
-                  {{ cases[section - 1].link }}
+                <p class="text-xl leading-6 transition-all duration-1000" :class="`text-case-text-${currentSlide}`">
+                  {{ cases[currentSlide - 1].link }}
                 </p>
               </a>
-            </transition>
-            <div
-              class="flex items-center gap-2 mt-4 transition-all duration-1000"
-            >
-              <p
-                class="text-xl leading-6 transition-all duration-1000"
-                :class="`text-case-text-${section}`"
-              >
-                {{ section }}
-              </p>
-              <div class="w-32 h-px bg-white relative">
-                <div
-                  :style="{ transform: `scaleX(${section / 7})` }"
-                  class="
-                    absolute
-                    top-0
-                    left-0
-                    w-full
-                    h-full
-                    origin-left
-                    transition-all
-                    duration-1000
-                  "
-                  :class="`bg-case-text-${section}`"
-                ></div>
+              <div class="flex items-center gap-2 mt-4 transition-all duration-1000">
+                <p class="text-xl leading-6 transition-all duration-1000" :class="`text-case-text-${currentSlide}`">
+                  {{ currentSlide }}
+                </p>
+                <div class="w-32 h-px bg-white relative">
+                  <div
+                    :style="{
+                      transform: `scaleX(${currentSlide / cases.length})`,
+                    }"
+                    class="absolute top-0 left-0 w-full h-full origin-left transition-all duration-1000"
+                    :class="`bg-case-text-${currentSlide}`"
+                  ></div>
+                </div>
+                <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
               </div>
-              <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
-            </div>
-            <transition name="linkappear">
-              <div
-                :key="section"
-                class="flex flex-wrap gap-2 mt-4 caselist__taggroup"
-              >
+              <div class="flex flex-wrap gap-2 mt-4 xl:mt-6 caselist__taggroup">
                 <div
-                  v-for="tag in cases[section - 1].tags"
-                  :key="tag + section"
+                  v-for="tag in cases[currentSlide - 1].tags"
+                  :key="tag + currentSlide"
                   class="
                     caselist__tag
                     rounded-60
@@ -109,215 +66,156 @@
                     transition-all
                     duration-1000
                   "
-                  :class="`text-case-${section}`"
+                  :class="`text-case-${currentSlide}`"
                 >
                   {{ tag }}
                 </div>
               </div>
-            </transition>
-          </div>
-          <transition name="text">
-            <div :key="section">
-              <p class="text-white leading-5 font-medium">
-                <span class="font-bold">
-                  {{ cases[section - 1].advantage.title }}
-                </span>
-                {{ cases[section - 1].advantage.text }}
-              </p>
-              <p class="mt-8 text-sm leading-4 text-white font-medium">
-                <span class="font-bold">Stack:</span>
-                {{ cases[section - 1].stack }}
-              </p>
-              <p class="mt-2 text-sm text-white leading-4 font-medium relative">
-                <span class="font-bold">Task: </span>
-                {{ cases[section - 1].task }}
-              </p>
-
-              <p class="mt-8 font-medium text-white leading-5 pb-2">
-                {{ cases[section - 1].present }}
-              </p>
             </div>
-          </transition>
-          <div class="caselist__title-block absolute left-0 font-medium z-5">
-            <transition name="title">
-              <p :key="section" class="text-white text-7xl">
-                {{ cases[section - 1].title }}<br />
-              </p>
-            </transition>
-            <transition name="subtitle">
+            <div class="w-full">
+              <p class="font-medium caselist__title relative z-2">{{ cases[currentSlide - 1].title }}</p>
               <p
-                :key="section"
-                class="caselist__subtitle transition-all duration-1000"
-                :class="`text-case-text-${section}`"
+                class="font-medium caselist__subtitle transition-all duration-1000 relative z-2"
+                :class="`text-case-text-${currentSlide}`"
               >
-                {{ cases[section - 1].subtitle }}
+                {{ cases[currentSlide - 1].subtitle }}
               </p>
-            </transition>
-          </div>
-        </div>
-        <transition-group
-          tag="div"
-          class="relative caselist__image-wrapper"
-          :name="scrollDirection === 'down' ? 'bgappear' : 'bgappearreverse'"
-        >
-          <img
-            v-for="n in cases.length"
-            :key="n + `${section}`"
-            :src="require(`@/assets/images/index/cases/${n}.png`)"
-            class="
-              rounded-60
-              caselist__main-image
-              w-full
-              top-0
-              left-0
-              duration-700
-              delay-300
-            "
-            :class="{
-              'absolute opacity-min': n !== section,
-              'caselist__main-image_below': isBelow,
-            }"
-          />
-        </transition-group>
-      </div>
-      <div class="hidden md:block sm:block flex flex-col">
-        <div class="flex items-center justify-between">
-          <p class="text-2xl text-white leading-10 font-bold">Selected Works</p>
-          <div
-            class="flex items-center gap-2 mt-4 transition-all duration-1000"
-          >
-            <p
-              class="text-xl leading-6 transition-all duration-1000"
-              :class="`text-case-text-${currentSlide}`"
-            >
-              {{ currentSlide }}
-            </p>
-            <div class="w-32 h-px bg-white relative">
-              <div
-                :style="{ transform: `scaleX(${currentSlide / 7})` }"
-                class="
-                  absolute
-                  top-0
-                  left-0
-                  w-full
-                  h-full
-                  origin-left
-                  transition-all
-                  duration-1000
-                "
-                :class="`bg-case-text-${currentSlide}`"
-              ></div>
+              <p class="text-white leading-5 font-medium mt-2 xl:text-xl xl:leading-6">
+                <span class="font-bold">
+                  {{ cases[currentSlide - 1].advantage.title }}
+                </span>
+                {{ cases[currentSlide - 1].advantage.text }}
+              </p>
+              <p class="mt-2 text-sm xl:text-xl xl:leading-6 text-white leading-4 font-medium relative">
+                <span class="font-bold">Task: </span>
+                {{ cases[currentSlide - 1].task }}
+              </p>
+              <p class="mt-8 xl:text-xl xl:leading-6 text-sm leading-4 text-white font-medium">
+                <span class="font-bold">Stack:</span>
+                {{ cases[currentSlide - 1].stack }}
+              </p>
+              <p class="mt-8 font-medium text-white leading-5 pb-2 xl:text-xl xl:leading-6">
+                {{ cases[currentSlide - 1].present }}
+              </p>
             </div>
-            <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
+          </div>
+          <div class="flex-1 rounded-45 overflow-hidden relative">
+            <img
+              v-for="(work, index) in cases"
+              :key="work.title + currentSlide"
+              :src="require(`~/assets/images/index/cases/${index + 1}.png`)"
+              class="w-full h-full object-cover object-center absolute top-0 left-0"
+              :class="index + 1 === currentSlide ? 'z-1' : 'opacity-0'"
+            />
           </div>
         </div>
-        <div class="mt-4">
-          <div class="mt-8 w-full">
+        <div class="lg:hidden xl:hidden">
+          <div class="flex items-center justify-between">
+            <p class="text-3xl leading-10 font-bold">Selected Works</p>
+            <div class="flex items-center gap-2 mt-4 transition-all duration-1000">
+              <p class="text-xl leading-6 transition-all duration-1000" :class="`text-case-text-${currentSlideXs}`">
+                {{ currentSlideXs }}
+              </p>
+              <div class="w-32 h-px bg-white relative">
+                <div
+                  :style="{
+                    transform: `scaleX(${currentSlideXs / cases.length})`,
+                  }"
+                  class="absolute top-0 left-0 w-full h-full origin-left transition-all duration-1000"
+                  :class="`bg-case-text-${currentSlideXs}`"
+                ></div>
+              </div>
+              <p class="text-xl leading-6 text-white">{{ cases.length }}</p>
+            </div>
+          </div>
+          <client-only>
             <swiper
               :options="options"
-              class="w-full overflow-visible"
               @slideChange="handleSlideChange"
+              @init="handleSwiperInit"
+              class="mt-4 overflow-visible"
             >
-              <swiper-slide
-                v-for="(caseSlide, index) in cases"
-                :key="caseSlide.title"
-              >
-                <a class="flex gap-2 items-center mt-4">
+              <swiper-slide v-for="(work, index) in cases" :key="work.title">
+                <a class="flex gap-2 items-center">
                   <div
-                    class="
-                      h-5
-                      w-5
-                      rounded-full
-                      flex
-                      justify-center
-                      items-center
-                    "
-                    :class="`bg-case-text-${currentSlide}`"
+                    class="h-5 w-5 rounded-full flex justify-center items-center transition-all duration-1000"
+                    :class="`bg-case-text-${index + 1}`"
                   >
-                    <LazyImage
-                      width="8"
-                      height="8"
-                      src="index/cases/arrow-icon.svg"
-                    />
+                    <LazyImage width="8" height="8" src="index/cases/arrow-icon.svg" />
                   </div>
-                  <p
-                    class="text-xl leading-6 transition-all duration-1000"
-                    :class="`text-case-text-${currentSlide}`"
-                  >
-                    {{ caseSlide.link }}
+                  <p class="text-xl leading-6 transition-all duration-1000" :class="`text-case-text-${index + 1}`">
+                    {{ work.link }}
                   </p>
                 </a>
-                <div class="mt-6 sm:mt-4 flex gap-20 sm:gap-12 flex-col justify-between">
-                  <div class="relative">
-                    <LazyImage
-                      width="896"
-                      height="678"
-                      :src="`index/cases/${index + 1}.png`"
-                      class="w-full"
-                    />
+                <div class="mt-6 caselist__image-wrapper-xs relative">
+                  <LazyImage :src="`index/cases/${index + 1}.png`" class="w-full h-full object-cover rounded-30" />
+                  <div class="absolute -bottom-16 sm:-bottom-12 left-0">
+                    <p class="font-medium text-white caselist__title-xs">{{ work.title }}</p>
+                    <p class="font-medium caselist__subtitle-xs" :class="`text-case-text-${index + 1}`">
+                      {{ work.subtitle }}
+                    </p>
                   </div>
-                  <div class="w-full relative">
-                    <div class="caselist__title-block absolute left-0">
-                      <p class="text-white font-medium caselist__title">
-                        {{ caseSlide.title }}
-                      </p>
-                      <p
-                        class="font-medium caselist__subtitle"
-                        :class="`text-case-text-${index + 1}`"
-                      >
-                        {{ caseSlide.subtitle }}
-                      </p>
+                  <div
+                    :key="currentSlideXs"
+                    class="flex flex-wrap gap-2 mt-4 caselist__tag-group-xs absolute top-8 left-8"
+                  >
+                    <div
+                      v-for="tag in work.tags"
+                      :key="tag"
+                      class="
+                        caselist__tag-xs
+                        rounded-60
+                        py-1.5
+                        px-3
+                        text-sm
+                        font-bold
+                        leading-4
+                        transition-all
+                        duration-1000
+                      "
+                      :class="`text-case${index === 6 ? '' : '-text'}-${currentSlideXs}`"
+                    >
+                      {{ tag }}
                     </div>
-                    <p class="text-white text-xl leading-6 mt-6 sm:mt-0 font-medium">
-                      <span class="font-bold">
-                        {{ caseSlide.advantage.title }}
-                      </span>
-                      {{ caseSlide.advantage.text }}
-                    </p>
-                    <p class="mt-8 leading-5 text-white font-medium">
-                      <span class="font-bold">Stack:</span>
-                      {{ caseSlide.stack }}
-                    </p>
-                    <p class="mt-2 text-white leading-5 font-medium relative">
-                      <span class="font-bold">Task: </span>
-                      {{ caseSlide.task }}
-                    </p>
-                    <p
-                      class="
-                        mt-8
-                        text-xl
-                        leading-6
-                        font-medium
-                        text-white
-                        leading-5
-                        pb-2
-                      "
-                    >
-                      {{ caseSlide.present }}
-                    </p>
-                    <button
-                      class="
-                        bg-white
-                        rounded-100
-                        flex
-                        justify-center
-                        items-center
-                        text-xl
-                        leading-6
-                        font-medium
-                        h-12
-                        px-6
-                        mt-10
-                        sm:mt-8
-                      "
-                    >
-                      More details
-                    </button>
                   </div>
                 </div>
+                <p class="mt-24 sm:mt-16 text-xl leading-6 font-medium">
+                  <span class="font-bold">{{ work.advantage.title }}</span>
+                  {{ work.advantage.text }}
+                </p>
+                <p class="mt-8 leading-5 font-medium">
+                  <span class="font-bold">Stack:</span>
+                  {{ work.stack }}
+                </p>
+                <p class="mt-2 leading-5 font-medium">
+                  <span class="font-bold">Task:</span>
+                  {{ work.task }}
+                </p>
+                <p class="mt-8 text-xl leading-6 font-medium">
+                  {{ work.present }}
+                </p>
+                <button
+                  style="width: 180px"
+                  class="
+                    mt-8
+                    rounded-100
+                    bg-white
+                    text-black
+                    font-medium
+                    text-xl
+                    leading-6
+                    flex
+                    justify-center
+                    items-center
+                    h-12
+                  "
+                >
+                  More details
+                </button>
               </swiper-slide>
             </swiper>
-          </div>
+          </client-only>
+          <div></div>
         </div>
       </div>
     </div>
@@ -336,22 +234,27 @@ export default {
       type: String,
       default: 'down',
     },
+    order: {
+      type: [Number, String],
+      default: '',
+    },
   },
   data() {
     return {
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0,
+      diffX: 0,
+      diffY: 0,
+      swiper: {},
+      offScroll: false,
       options: {
         slidesPerView: 1,
-        effect: 'coverflow',
         spaceBetween: 16,
-        coverflowEffect: {
-          rotate: 30,
-          slideShadows: false,
-        },
-        watchSlidesVisibility: true,
-        watchOverflow: true,
       },
       currentSlide: 1,
-      tags: ['App & Web', 'CRM, ERP, MDM, BPMS', 'Machine Learning'],
+      currentSlideXs: 1,
       cases: [
         {
           title: 'Alibaba.com',
@@ -445,278 +348,188 @@ export default {
           present: '2021',
         },
       ],
+      windowWidth: 0,
     }
   },
-  methods: {
-    handleSlideChange(swiper) {
-      this.currentSlide = swiper.activeIndex + 1
+  computed: {
+    isVisible() {
+      return this.$props.currentSection === this.$props.order
     },
   },
-  // watch: {
-  //   currentSection(newValue) {
-  //     switch (newValue) {
-  //       case 2:
-  //         this.$emit('changeColor', '#FF9B80')
-  //         return
-  //       case 3:
-  //         this.$emit('changeColor', '#EBA35D')
-  //         return
-  //       case 4:
-  //         this.$emit('changeColor', '#8479FF')
-  //         break
-  //       case 5:
-  //         this.$emit('changeColor', '#E6CDB6')
-  //         break
-  //       case 6:
-  //         this.$emit('changeColor', '#98B2FF')
-  //         break
-  //       case 7:
-  //         this.$emit('changeColor', '#F2C459')
-  //         break
-  //       case 8:
-  //         this.$emit('changeColor', '#509BFD')
-  //         break
-  //     }
-  //   },
-  //   currentSlide(newValue) {
-  //     switch (newValue) {
-  //       case 1:
-  //         this.$emit('changeColor', '#FF9B80')
-  //         return
-  //       case 2:
-  //         this.$emit('changeColor', '#EBA35D')
-  //         return
-  //       case 3:
-  //         this.$emit('changeColor', '#8479FF')
-  //         break
-  //       case 4:
-  //         this.$emit('changeColor', '#E6CDB6')
-  //         break
-  //       case 5:
-  //         this.$emit('changeColor', '#98B2FF')
-  //         break
-  //       case 6:
-  //         this.$emit('changeColor', '#F2C459')
-  //         break
-  //       case 7:
-  //         this.$emit('changeColor', '#509BFD')
-  //         break
-  //     }
-  //   },
-  // },
-  computed: {
-    section() {
-      if (this.$props.currentSection <= 2) return 1
-      else if (this.$props.currentSection > 7) return 7
-      return this.$props.currentSection - 1
+  methods: {
+    handleSwiperInit(swiper) {
+      this.swiper = swiper
     },
-    isAbove() {
-      return this.$props.currentSection > 8
+    handleSlideChange(swiper) {
+      this.currentSlideXs = swiper.activeIndex + 1
     },
-    isBelow() {
-      return this.$props.currentSection < 2
+    defineWindowWidth() {
+      this.windowWidth = window.innerWidth
+      if (!this.isVisible) return
+      if (this.windowWidth > 1199) this.changeBgColor(this.currentSlide)
+      else this.changeBgColor(this.currentSlideXs)
     },
+    changeBgColor(value) {
+      switch (value) {
+        case 1:
+          this.$store.commit('changeBgColor', '#FF9B80')
+          return
+        case 2:
+          this.$store.commit('changeBgColor', '#EBA35D')
+          return
+        case 3:
+          this.$store.commit('changeBgColor', '#8479FF')
+          break
+        case 4:
+          this.$store.commit('changeBgColor', '#E6CDB6')
+          break
+        case 5:
+          this.$store.commit('changeBgColor', '#98B2FF')
+          break
+        case 6:
+          this.$store.commit('changeBgColor', '#F2C459')
+          break
+        case 7:
+          this.$store.commit('changeBgColor', '#509BFD')
+          break
+      }
+    },
+  },
+  watch: {
+    isVisible(visible) {
+      if (!visible) return
+      if (this.windowWidth > 1199) this.changeBgColor(this.currentSlide)
+      else this.changeBgColor(this.currentSlideXs)
+    },
+    currentSlide(value) {
+      if (this.windowWidth > 1199) this.changeBgColor(value)
+    },
+    currentSlideXs(value) {
+      if (this.windowWidth <= 1199) this.changeBgColor(value)
+    },
+  },
+  mounted() {
+    this.defineWindowWidth()
+    window.addEventListener('resize', this.defineWindowWidth)
+
+    this.$refs.mainContainer.addEventListener('wheel', (event) => {
+      if (this.windowWidth <= 1199) return
+      if (Math.abs(event.wheelDelta) < 50) return
+      if (this.offScroll | event.ctrlKey) return
+
+      if (event.deltaY > 0) {
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 1000)
+        setTimeout(() => {
+          if (this.currentSlide === this.cases.length) this.$emit('scrollDown')
+          else this.currentSlide += 1
+        }, 50)
+      } else {
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 800)
+        setTimeout(() => {
+          if (this.currentSlide === 1) this.$emit('scrollUp')
+          else this.currentSlide = this.currentSlide - 1
+        }, 50)
+      }
+    })
+
+    this.$refs.mainContainer.addEventListener('touchstart', (event) => {
+      this.touchStartX = event.changedTouches[0].screenX
+      this.touchStartY = event.changedTouches[0].screenY
+    })
+    this.$refs.mainContainer.addEventListener('touchend', (event) => {
+      if (this.windowWidth > 1199) return
+      this.touchEndX = event.changedTouches[0].screenX
+      this.touchEndY = event.changedTouches[0].screenY
+      this.diffX = Math.abs(this.touchEndX - this.touchStartX)
+      this.diffY = Math.abs(this.touchEndY - this.touchStartY)
+      if (this.diffY > this.diffX && this.touchEndY > this.touchStartY) {
+        setTimeout(() => {
+          this.$emit('scrollUp')
+        }, 50)
+      }
+      if (this.diffY > this.diffX && this.touchEndY < this.touchStartY) {
+        setTimeout(() => {
+          this.$emit('scrollDown')
+        }, 50)
+      }
+    })
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .caselist {
-  &__text-block {
-    max-width: 309px;
+  &__slide-wrapper {
+    height: 75%;
   }
-  &__title-block {
-    top: 273px;
-    line-height: 70px;
-    max-width: unset;
-    width: 2000px;
-    height: 140px;
-    @media (max-width: 1199px) {
-      top: -174px;
-    }
-    @media (max-width: 1023px) {
-      top: -113px;
+  &__info-block {
+    width: 430px;
+    @media (max-width: 1919px) {
+      width: 307px;
     }
   }
-
   &__title {
-    @media (max-width: 1199px) and (min-width: 1024px) {
+    width: 1400px;
+    font-size: 100px;
+    line-height: 121px;
+    @media (max-width: 1919px) {
       font-size: 80px;
       line-height: 80px;
     }
+    @media (max-height: 744px) {
+      font-size: 40px;
+      line-height: 40px;
+    }
+  }
+  &__subtitle {
+    width: 1400px;
+    font-size: 90px;
+    line-height: 110px;
+    @media (max-width: 1919px) {
+      font-size: 70px;
+      line-height: 70px;
+    }
+    @media (max-height: 744px) {
+      font-size: 40px;
+      line-height: 40px;
+    }
+  }
+  &__image-wrapper-xs {
+    height: 678px;
+    @media (max-height: 1270px) and (min-width: 1024px) {
+      height: 500px;
+    }
+    @media (max-width: 1023px) {
+      height: 402px;
+    }
+  }
+  &__tag-xs {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  &__tag-group-xs {
+    max-width: 310px;
+  }
+  &__title-xs {
+    font-size: 80px;
+    line-height: 80px;
     @media (max-width: 1023px) {
       font-size: 60px;
       line-height: 60px;
     }
   }
-
-  &__subtitle {
+  &__subtitle-xs {
     font-size: 70px;
-    @media (max-width: 1199px) {
-      font-size: 70px;
-      line-height: 70px;
-    }
+    line-height: 70px;
     @media (max-width: 1023px) {
       font-size: 50px;
       line-height: 50px;
     }
-  }
-
-  &__taggroup {
-    max-width: 309px;
-  }
-
-  &__image-wrapper {
-    width: 998px;
-    height: 702px;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: all 950ms;
-  }
-  &-enter,
-  &-leave-to {
-    transform: translateY(-100vh);
-  }
-
-  &_below {
-    transform: translateY(100vh) !important;
-  }
-  &__main-image_below {
-    transform: translateY(-20vh) !important;
-  }
-}
-
-.bgappear {
-  &-leave-active,
-  &-enter-active {
-    transition: all 950ms !important;
-  }
-  &-enter {
-    transform: translateX(1200px) !important;
-  }
-  &-leave-to {
-    transform: translateX(-2000px) !important;
-  }
-  &-enter,
-  &-enter-active,
-  &-leave,
-  &-leave-active {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-  }
-}
-
-.bgappearreverse {
-  &-leave-active,
-  &-enter-active {
-    transition: all 950ms !important;
-  }
-  &-enter {
-    transform: translateX(-2000px) !important;
-  }
-  &-leave-to {
-    transform: translateX(1200px) !important;
-  }
-  &-enter,
-  &-enter-active,
-  &-leave,
-  &-leave-active {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-  }
-}
-
-.linkappear {
-  &-leave-active,
-  &-enter-active {
-    transition: all 950ms !important;
-  }
-  &-enter {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  &-leave-to {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-  &-leave,
-  &-leave-active {
-    position: absolute;
-  }
-  &-enter-active {
-    transition-delay: 500ms !important;
-  }
-}
-
-.title,
-.subtitle {
-  &-leave-active,
-  &-enter-active {
-    transition: all 700ms;
-  }
-  &-enter-active {
-    position: absolute;
-    left: 0;
-    transition-delay: 700ms;
-  }
-  &-leave-to {
-    transform: translateX(-1200px);
-  }
-  &-enter {
-    transform: translateX(2000px);
-  }
-}
-.title-enter-active {
-  top: 0;
-}
-.subtitle {
-  &-enter-active {
-    bottom: 0;
-  }
-  &-leave-active {
-    transition-delay: 100ms;
-  }
-}
-
-.text {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 270ms;
-  }
-  &-leave-active {
-    opacity: 1 !important;
-  }
-  &-enter-active {
-    opacity: 0 !important;
-    position: absolute;
-  }
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-}
-
-.swiper-slide-next,
-.swiper-slide-prev {
-  img {
-    transform: scale(0.95) !important;
-  }
-  p,
-  button {
-    opacity: 0;
-  }
-}
-.swiper-slide {
-  img {
-    transition: transform 600ms linear !important;
-  }
-  p,
-  button {
-    transition: opacity 1000ms !important;
   }
 }
 </style>

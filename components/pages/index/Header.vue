@@ -8,39 +8,12 @@
         src="index/header/header-bg.png"
         class="header__bg-image absolute top-0 xl:right-0"
       />
-      <div
-        ref="mainContainer"
-        class="
-          w-full
-          h-full
-          relative
-          flex
-          items-center
-          pl-24
-          pr-40
-          lg:px-24
-          md:px-16
-          sm:px-8
-        "
-      >
+      <div ref="mainContainer" class="w-full h-full relative flex items-center pl-24 pr-40 lg:px-24 md:px-16 sm:px-8">
         <div
-          class="
-            w-full
-            flex
-            md:flex-col
-            sm:flex-col
-            gap-12
-            md:gap-20
-            sm:gap-8
-            items-end
-            md:items-start
-            sm:items-start
-          "
+          class="w-full flex md:flex-col sm:flex-col gap-12 md:gap-20 sm:gap-8 items-end md:items-start sm:items-start"
         >
           <div class="flex-1 relative">
-            <p class="text-yellow-1 leading-5 font-medium">
-              / Design & custom software development
-            </p>
+            <p class="text-yellow-1 leading-5 font-medium">/ Design & custom software development</p>
             <h1 class="header__title mt-2 text-white font-medium">
               DAO culture.<br />
               Startup speed.<br />
@@ -54,44 +27,16 @@
             />
           </div>
           <div class="header__info-block">
-            <p
-              class="
-                text-white text-2xl
-                lg:text-xl
-                leading-7
-                lg:leading-6
-                font-medium
-                tracking-none
-              "
-            >
+            <p class="text-white text-2xl lg:text-xl leading-7 lg:leading-6 font-medium tracking-none">
               We <span class="font-bold text-yellow-1">x-multiply</span> and
-              <span class="font-bold text-yellow-1">x-scale</span> businesses
-              via high-tech ideas and custom it-solutions at → startup speed.
+              <span class="font-bold text-yellow-1">x-scale</span> businesses via high-tech ideas and custom
+              it-solutions at → startup speed.
             </p>
-            <div
-              class="
-                flex
-                gap-2
-                flex-wrap
-                mt-6
-                lg:mt-4
-                sm:mt-8
-                header__tag-block
-              "
-            >
+            <div class="flex gap-2 flex-wrap mt-6 lg:mt-4 sm:mt-8 header__tag-block">
               <div
                 v-for="tag in tags"
                 :key="tag"
-                class="
-                  header__tag
-                  py-1.5
-                  px-3
-                  font-bold
-                  text-sm
-                  leading-4
-                  tracking-none
-                  rounded-100
-                "
+                class="header__tag py-1.5 px-3 font-bold text-sm leading-4 tracking-none rounded-100"
               >
                 {{ tag }}
               </div>
@@ -137,6 +82,10 @@ export default {
       type: String,
       default: 'down',
     },
+    order: {
+      type: [Number, String],
+      default: '',
+    },
   },
   mixins: [changeCurrentSection],
   data() {
@@ -158,7 +107,7 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === 1
+      return this.$props.currentSection === this.$props.order
     },
   },
   watch: {
@@ -197,6 +146,10 @@ export default {
     @media (max-width: 1023px) {
       font-size: 90px;
       line-height: 90px;
+    }
+    @media (max-height: 744px) {
+      font-size: 70px;
+      line-height: 70px;
     }
   }
   &__info-block {
