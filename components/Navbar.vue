@@ -8,10 +8,10 @@
     ]"
   >
     <div
-      class="flex justify-between items-start w-full duration-1000"
+      class="flex justify-between items-start xs:items-center w-full duration-1000"
       :class="currentSection === 1 ? 'mt-16 xs:mt-0' : 'mt-10 xs:mt-0'"
     >
-      <div class="flex items-start">
+      <div class="flex items-start xs:h-2.5">
         <LazyImage width="56" height="32" src="navbar/logo.svg" class="cursor-pointer" />
         <div
           class="navbar__first-block md:hidden sm:hidden xs:hidden duration-1000"
