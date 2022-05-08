@@ -1,15 +1,11 @@
 <template>
-  <client-only>
-    <div
-      :style="{ 'background-color': `${cases[currentSlide].color}` }"
-      class="casepage-xs px-6 pt-10 pb-8 duration-1000"
-    >
-      <p class="text-2xl text-white leading-8 font-semibold">Selected Works</p>
-      <swiper
-        :options="options"
-        class="mt-6 overflow-visible"
-        @slideChange="handleSlideChange"
-      >
+  <div
+    :style="{ 'background-color': `${cases[currentSlide].color}` }"
+    class="casepage-xs px-6 pt-10 pb-8 duration-1000"
+  >
+    <p class="text-2xl text-white leading-8 font-semibold">Selected Works</p>
+    <client-only>
+      <swiper :options="options" class="mt-6 overflow-visible" @slideChange="handleSlideChange">
         <swiper-slide
           style="min-height: 567px"
           v-for="(slide, index) in cases"
@@ -18,28 +14,11 @@
         >
           <div class="w-full">
             <div class="relative">
-              <div
-                class="
-                  absolute
-                  top-2.5
-                  left-3
-                  casepage-xs__tag-block
-                  flex flex-wrap
-                  gap-2
-                "
-              >
+              <div class="absolute top-2.5 left-3 casepage-xs__tag-block flex flex-wrap gap-2">
                 <div
                   v-for="tag in slide.tags"
                   :key="tag"
-                  class="
-                    casepage-xs__tag
-                    py-1.5
-                    px-3
-                    font-bold
-                    text-sm
-                    leading-4
-                    rounded-100
-                  "
+                  class="casepage-xs__tag py-1.5 px-3 font-bold text-sm leading-4 rounded-100"
                   :class="`text-case-${index !== 6 ? 'text-' : ''}${index + 1}`"
                 >
                   {{ tag }}
@@ -49,19 +28,11 @@
                 <p class="text-white font-medium text-3xl leading-10">
                   {{ slide.title }}
                 </p>
-                <p
-                  class="text-2xl leading-8 font-semibold"
-                  :class="`text-case-text-${index + 1}`"
-                >
+                <p class="text-2xl leading-8 font-semibold" :class="`text-case-text-${index + 1}`">
                   {{ slide.subtitle }}
                 </p>
               </div>
-              <LazyImage
-                width="327"
-                height="228"
-                :src="`index/cases/${index + 1}.png`"
-                class="w-full"
-              />
+              <LazyImage width="327" height="228" :src="`index/cases/${index + 1}.png`" class="w-full" />
             </div>
             <p class="text-white text-sm leading-4 font-medium mt-12">
               <span class="font-bold">{{ slide.advantage.title }}</span>
@@ -80,34 +51,22 @@
             </p>
           </div>
           <button
-            class="
-              bg-white
-              w-full
-              h-12
-              font-medium
-              text-xl
-              leading-6
-              flex
-              justify-center
-              items-center
-              rounded-100
-              mt-3
-            "
+            class="bg-white w-full h-12 font-medium text-xl leading-6 flex justify-center items-center rounded-100 mt-3"
           >
             More Details
           </button>
         </swiper-slide>
       </swiper>
-      <div class="mt-8 h-2 w-32 bg-yellow-1 rounded-10 mx-auto p-0.5">
-        <div
-          :style="{
-            transform: `translateX(${currentSlide * (106 / cases.length)}px)`,
-          }"
-          class="w-8 bg-black h-full rounded-10 duration-500"
-        ></div>
-      </div>
+    </client-only>
+    <div class="mt-8 h-2 w-32 bg-yellow-1 rounded-10 mx-auto p-0.5">
+      <div
+        :style="{
+          transform: `translateX(${currentSlide * (106 / cases.length)}px)`,
+        }"
+        class="w-8 bg-black h-full rounded-10 duration-500"
+      ></div>
     </div>
-  </client-only>
+  </div>
 </template>
 
 <script>

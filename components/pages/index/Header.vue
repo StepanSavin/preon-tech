@@ -74,14 +74,6 @@ import changeCurrentSection from '~/mixins/changeCurrentSection'
 export default {
   name: 'Header',
   props: {
-    currentSection: {
-      type: Number,
-      default: 0,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
-    },
     order: {
       type: [Number, String],
       default: '',
@@ -107,7 +99,13 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === this.$props.order
+      return this.currentSection === this.$props.order
+    },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
     },
   },
   watch: {

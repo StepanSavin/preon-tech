@@ -226,14 +226,6 @@
 export default {
   name: 'CasePage',
   props: {
-    currentSection: {
-      type: Number,
-      required: true,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
-    },
     order: {
       type: [Number, String],
       default: '',
@@ -353,7 +345,13 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === this.$props.order
+      return this.currentSection === this.$props.order
+    },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
     },
   },
   methods: {
@@ -402,10 +400,8 @@ export default {
       else this.changeBgColor(this.currentSlideXs)
       if (this.scrollDirection === 'up') {
         this.currentSlide = this.cases.length
-        this.currentSlideXs = this.cases.length
       } else {
         this.currentSlide = 1
-        this.currentSlideXs = 1
       }
     },
     currentSlide(value) {
@@ -430,7 +426,7 @@ export default {
           this.offScroll = false
         }, 1000)
         setTimeout(() => {
-          if (this.currentSlide === this.cases.length) this.$emit('scrollDown')
+          if (this.currentSlide === this.cases.length) this.$store.commit('nextSection')
           else this.currentSlide += 1
         }, 50)
       } else {
@@ -439,7 +435,7 @@ export default {
           this.offScroll = false
         }, 800)
         setTimeout(() => {
-          if (this.currentSlide === 1) this.$emit('scrollUp')
+          if (this.currentSlide === 1) this.$store.commit('prevSection')
           else this.currentSlide = this.currentSlide - 1
         }, 50)
       }
@@ -455,14 +451,14 @@ export default {
       this.touchEndY = event.changedTouches[0].screenY
       this.diffX = Math.abs(this.touchEndX - this.touchStartX)
       this.diffY = Math.abs(this.touchEndY - this.touchStartY)
-      if (this.diffY > this.diffX && this.touchEndY > this.touchStartY) {
+      if (this.diffY > this.diffX && this.touchEndY - this.touchStartY > 50) {
         setTimeout(() => {
-          this.$emit('scrollUp')
+          this.$store.commit('prevSection')
         }, 50)
       }
-      if (this.diffY > this.diffX && this.touchEndY < this.touchStartY) {
+      if (this.diffY > this.diffX && this.touchStartY - this.touchEndY > 50) {
         setTimeout(() => {
-          this.$emit('scrollDown')
+          this.$store.commit('nextSection')
         }, 50)
       }
     })
@@ -514,6 +510,9 @@ export default {
     }
     @media (max-width: 1023px) {
       height: 402px;
+      @media (max-height: 1000px) {
+        height: 300px;
+      }
     }
   }
   &__tag-xs {

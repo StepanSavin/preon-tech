@@ -1,7 +1,7 @@
 <template>
   <transition :name="this.scrollDirection === 'down' ? 'partners' : 'partners-reverse'">
     <div v-show="isVisible" ref="mainContainer" class="w-full h-screen absolute top-0 left-0">
-      <div class="w-full h-full flex flex-col justify-between pt-32 px-24 pb-20">
+      <div class="w-full h-full flex flex-col justify-between pt-32 px-24 pb-20 md:px-16 sm:px-8">
         <div class="flex items-center">
           <p class="text-3xl text-white font-bold leading-10">We are trusted</p>
           <p class="text-white leading-5 partners__subtitle">
@@ -48,14 +48,6 @@ export default {
   name: 'TrustPartners',
   mixins: [changeCurrentSection],
   props: {
-    currentSection: {
-      type: Number,
-      required: true,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
-    },
     order: {
       type: [String, Number],
       default: '',
@@ -99,7 +91,13 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === this.$props.order
+      return this.currentSection === this.$props.order
+    },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
     },
   },
 }
@@ -121,6 +119,7 @@ export default {
   }
   &__item {
     min-width: 450px;
+    width: 450px;
     height: 450px;
   }
   &__item-text {
