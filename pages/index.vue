@@ -15,7 +15,9 @@
       <TrustPartners
         :currentSection="currentSection"
         :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
+        :order="3"
+        @scrollDown="scrollDown"
+        @scrollUp="scrollUp"
       />
       <ServicesSolutions
         :currentSection="currentSection"
@@ -69,7 +71,7 @@ export default {
   },
   data() {
     return {
-      currentSection: 1,
+      currentSection: 3,
       scrollDirection: 'down',
       touchStartX: 0,
       touchStartY: 0,
@@ -86,9 +88,11 @@ export default {
   },
   methods: {
     scrollDown() {
+      this.scrollDirection = 'down'
       this.currentSection += 1
     },
     scrollUp() {
+      this.scrollDirection = 'up'
       this.currentSection = this.currentSection - 1
     },
   },

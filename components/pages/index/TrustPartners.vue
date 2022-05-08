@@ -1,78 +1,52 @@
 <template>
-  <transition
-    :name="this.scrollDirection === 'down' ? 'partners' : 'partners-reverse'"
-  >
-    <div
-      v-if="!isAbove && !isBelow"
-      class="
-        partners
-        w-full
-        h-screen
-        pt-32
-        px-24
-        md:px-16 md:pb-32 md:flex
-        sm:px-8 sm:pb-32 sm:flex
-        flex-col
-        justify-between
-      "
-    >
-      <div class="flex gap-44 md:gap-16 sm:gap-4 items-center">
-        <p class="text-3xl text-white font-bold leading-10">We are trusted</p>
-        <p class="text-white leading-5">
-          We successfully work with the largest corporations and <br class="sm:hidden" />
-          startups from around the world
-        </p>
-      </div>
-      <div class="flex mt-20 partners__image-wrapper">
-        <div
-          v-for="(partner, index) in partners"
-          :key="index"
-          :style="{ transform: `translateX(${-24 * index}px)` }"
-          class="
-            partners__item
-            rounded-full
-            border border-gray-2
-            hover:border-yellow-1
-            flex flex-col
-            justify-between
-            items-center
-          "
-        >
-          <div class="flex flex-col items-center mt-12">
-            <LazyImage :src="`index/partners/${index + 1}.svg`" />
-            <p
-              class="
-                partners__item-text
-                mt-6
-                text-gray-2 text-center
-                font-medium
-              "
-            >
-              {{ partner.text }}
-            </p>
-          </div>
-          <LazyImage
-            width="46"
-            height="40"
-            alt="qoutes"
-            src="index/partners/qoutes.svg"
-            class="mb-10"
-          />
+  <transition :name="this.scrollDirection === 'down' ? 'partners' : 'partners-reverse'">
+    <div v-show="isVisible" ref="mainContainer" class="w-full h-screen absolute top-0 left-0">
+      <div class="w-full h-full flex flex-col justify-between pt-32 px-24 pb-20">
+        <div class="flex items-center">
+          <p class="text-3xl text-white font-bold leading-10">We are trusted</p>
+          <p class="text-white leading-5 partners__subtitle">
+            We successfully work with the largest corporations and <br class="sm:hidden" />
+            startups from around the world
+          </p>
         </div>
-      </div>
-      <div class="mt-16 h-2 w-32 bg-yellow-1 p-0.5 rounded-10 mx-auto">
-        <div
-          style="width: 30%"
-          class="h-full bg-black rounded-10 origin-left"
-        ></div>
+        <div class="flex partners__items-wrapper">
+          <div
+            v-for="(partner, index) in partners"
+            :key="index"
+            :style="{ transform: `translateX(${-24 * index}px)` }"
+            class="
+              partners__item
+              rounded-full
+              border border-gray-2
+              hover:border-yellow-1
+              flex flex-col
+              justify-around
+              items-center
+            "
+          >
+            <div class="flex flex-col items-center">
+              <LazyImage :width="partner.width" :height="partner.height" :src="`index/partners/${index + 1}.svg`" />
+              <p class="partners__item-text mt-6 text-gray-2 text-center font-medium">
+                {{ partner.text }}
+              </p>
+            </div>
+            <LazyImage width="46" height="40" alt="qoutes" src="index/partners/qoutes.svg" />
+          </div>
+        </div>
+        <div class="h-2 w-32 bg-yellow-1 p-0.5 rounded-10 mx-auto">
+          <div style="width: 30%" class="h-full bg-black rounded-10 origin-left"></div>
+        </div>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+import changeCurrentSection from '~/mixins/changeCurrentSection'
+
 export default {
   name: 'TrustPartners',
+  mixins: [changeCurrentSection],
   props: {
     currentSection: {
       type: Number,
@@ -81,6 +55,10 @@ export default {
     scrollDirection: {
       type: String,
       default: 'down',
+    },
+    order: {
+      type: [String, Number],
+      default: '',
     },
   },
   data() {
@@ -115,16 +93,13 @@ export default {
     }
   },
   watch: {
-    currentSection(value) {
-      if (value === 9) this.$emit('changeColor', 'black')
+    isVisible(value) {
+      if (value) this.$store.commit('changeBgColor', 'black')
     },
   },
   computed: {
-    isAbove() {
-      return this.$props.currentSection > 9
-    },
-    isBelow() {
-      return this.$props.currentSection < 9
+    isVisible() {
+      return this.$props.currentSection === this.$props.order
     },
   },
 }
@@ -132,55 +107,24 @@ export default {
 
 <style lang="scss">
 .partners {
+  &__subtitle {
+    margin-left: 341px;
+    @media (max-width: 1919px) {
+      margin-left: 181px;
+    }
+    @media (max-width: 1199px) {
+      margin-left: 62px;
+    }
+    @media (max-width: 1023px) {
+      margin-left: 16px;
+    }
+  }
   &__item {
     min-width: 450px;
-    max-width: unset;
     height: 450px;
-    &-text {
-      width: 346px;
-    }
-
-    &:hover .partners__item-text {
-      color: white !important;
-    }
   }
-  &-leave-active,
-  &-enter-active,
-  &-leave-active *,
-  &-enter-active * {
-    transition: all 900ms;
-  }
-  &-enter {
-    transform: translateY(100vh);
-    .partners__image-wrapper {
-      transform: translateX(1000px);
-    }
-  }
-  &-leave-to {
-    transform: translateY(-100vh);
-    .partners__image-wrapper {
-      transform: translateX(-1000px);
-    }
-  }
-  &-reverse {
-    &-leave-active,
-    &-enter-active,
-    &-leave-active *,
-    &-enter-active * {
-      transition: all 900ms;
-    }
-    &-enter {
-      transform: translateY(-100vh);
-      .partners__image-wrapper {
-        transform: translateX(1000px);
-      }
-    }
-    &-leave-to {
-      transform: translateY(100vh);
-      .partners__image-wrapper {
-        transform: translateX(-1000px);
-      }
-    }
+  &__item-text {
+    width: 80%;
   }
 }
 </style>

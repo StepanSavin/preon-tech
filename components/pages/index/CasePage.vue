@@ -400,6 +400,13 @@ export default {
       if (!visible) return
       if (this.windowWidth > 1199) this.changeBgColor(this.currentSlide)
       else this.changeBgColor(this.currentSlideXs)
+      if (this.scrollDirection === 'up') {
+        this.currentSlide = this.cases.length
+        this.currentSlideXs = this.cases.length
+      } else {
+        this.currentSlide = 1
+        this.currentSlideXs = 1
+      }
     },
     currentSlide(value) {
       if (this.windowWidth > 1199) this.changeBgColor(value)
