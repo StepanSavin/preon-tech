@@ -452,58 +452,58 @@ export default {
       this.currentSlide = swiper.activeIndex + 1
     },
   },
-  watch: {
-    currentSection(newValue) {
-      switch (newValue) {
-        case 2:
-          this.$emit('changeColor', '#FF9B80')
-          return
-        case 3:
-          this.$emit('changeColor', '#EBA35D')
-          return
-        case 4:
-          this.$emit('changeColor', '#8479FF')
-          break
-        case 5:
-          this.$emit('changeColor', '#E6CDB6')
-          break
-        case 6:
-          this.$emit('changeColor', '#98B2FF')
-          break
-        case 7:
-          this.$emit('changeColor', '#F2C459')
-          break
-        case 8:
-          this.$emit('changeColor', '#509BFD')
-          break
-      }
-    },
-    currentSlide(newValue) {
-      switch (newValue) {
-        case 1:
-          this.$emit('changeColor', '#FF9B80')
-          return
-        case 2:
-          this.$emit('changeColor', '#EBA35D')
-          return
-        case 3:
-          this.$emit('changeColor', '#8479FF')
-          break
-        case 4:
-          this.$emit('changeColor', '#E6CDB6')
-          break
-        case 5:
-          this.$emit('changeColor', '#98B2FF')
-          break
-        case 6:
-          this.$emit('changeColor', '#F2C459')
-          break
-        case 7:
-          this.$emit('changeColor', '#509BFD')
-          break
-      }
-    },
-  },
+  // watch: {
+  //   currentSection(newValue) {
+  //     switch (newValue) {
+  //       case 2:
+  //         this.$emit('changeColor', '#FF9B80')
+  //         return
+  //       case 3:
+  //         this.$emit('changeColor', '#EBA35D')
+  //         return
+  //       case 4:
+  //         this.$emit('changeColor', '#8479FF')
+  //         break
+  //       case 5:
+  //         this.$emit('changeColor', '#E6CDB6')
+  //         break
+  //       case 6:
+  //         this.$emit('changeColor', '#98B2FF')
+  //         break
+  //       case 7:
+  //         this.$emit('changeColor', '#F2C459')
+  //         break
+  //       case 8:
+  //         this.$emit('changeColor', '#509BFD')
+  //         break
+  //     }
+  //   },
+  //   currentSlide(newValue) {
+  //     switch (newValue) {
+  //       case 1:
+  //         this.$emit('changeColor', '#FF9B80')
+  //         return
+  //       case 2:
+  //         this.$emit('changeColor', '#EBA35D')
+  //         return
+  //       case 3:
+  //         this.$emit('changeColor', '#8479FF')
+  //         break
+  //       case 4:
+  //         this.$emit('changeColor', '#E6CDB6')
+  //         break
+  //       case 5:
+  //         this.$emit('changeColor', '#98B2FF')
+  //         break
+  //       case 6:
+  //         this.$emit('changeColor', '#F2C459')
+  //         break
+  //       case 7:
+  //         this.$emit('changeColor', '#509BFD')
+  //         break
+  //     }
+  //   },
+  // },
   computed: {
     section() {
       if (this.$props.currentSection <= 2) return 1

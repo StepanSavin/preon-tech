@@ -48,6 +48,16 @@
         </div>
       </transition>
     </div>
+    <div class="mt-10 flex justify-center items-center gap-2">
+      <p class="font-semibold leading-5 text-white">
+        Calculate the cost of the project
+      </p>
+      <div
+        class="w-8 h-8 rounded-full bg-white flex justify-center items-center"
+      >
+        <LazyImage width="14" height="14" src="index/stack/arrow-right.svg" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -162,10 +172,12 @@ export default {
   &-enter-active {
     transition: all 350ms linear;
   }
-  &-enter, &-leave-to {
+  &-enter,
+  &-leave-to {
     max-height: 0px;
   }
-  &-enter-to, &-leave {
+  &-enter-to,
+  &-leave {
     max-height: 230px;
   }
 }

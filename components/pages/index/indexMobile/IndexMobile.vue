@@ -6,6 +6,9 @@
     <ServicesSolutionsXs />
     <AdvantageListXs />
     <StackListXs />
+    <ProcessesListXs />
+    <DealsListXs />
+    <ReviewsListXs />
   </div>
 </template>
 
@@ -16,6 +19,9 @@ import TrustPartnersXs from '@/components/pages/index/indexMobile/TrustPartnersX
 import ServicesSolutionsXs from '@/components/pages/index/indexMobile/ServicesSolutionsXs'
 import AdvantageListXs from '@/components/pages/index/indexMobile/AdvantageListXs'
 import StackListXs from '@/components/pages/index/indexMobile/StackListXs'
+import ProcessesListXs from '@/components/pages/index/indexMobile/ProcessesListXs'
+import DealsListXs from '@/components/pages/index/indexMobile/DealsListXs'
+import ReviewsListXs from '@/components/pages/index/indexMobile/ReviewsListXs'
 
 export default {
   name: 'IndexMobile',
@@ -26,6 +32,9 @@ export default {
     ServicesSolutionsXs,
     AdvantageListXs,
     StackListXs,
+    ProcessesListXs,
+    DealsListXs,
+    ReviewsListXs,
   },
 }
 </script>
