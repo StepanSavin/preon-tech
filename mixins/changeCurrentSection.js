@@ -19,6 +19,7 @@ export default {
       if (window.innerWidth <= 1199) return
       if (Math.abs(event.wheelDelta) < 50) return
       if (this.offScroll | event.ctrlKey) return
+      this.isScrollOccured = false
 
       if (event.deltaY > 0) {
         this.offScroll = true
@@ -26,6 +27,7 @@ export default {
           this.offScroll = false
         }, 1000)
         setTimeout(() => {
+          if (this.isScrollOccured) return
           this.$store.commit('nextSection')
         }, 50)
       } else {
@@ -34,8 +36,9 @@ export default {
           this.offScroll = false
         }, 800)
         setTimeout(() => {
+          if (this.isScrollOccured) return
           this.$store.commit('prevSection')
-        }, 100)
+        }, 50)
       }
     })
 
@@ -66,6 +69,7 @@ export default {
 
     if (this.isScrollContainerExist)
       this.$refs.scrollContainer.addEventListener('scroll', () => {
+        console.log('scroll')
         this.isScrollOccured = true
       })
   },

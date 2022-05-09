@@ -1,82 +1,49 @@
 <template>
   <transition :name="scrollDirection === 'down' ? 'stack-down' : 'stack-up'">
-    <div
-      v-if="isVisible"
-      class="
-        stack
-        w-full
-        relative
-        overflow-hidden
-        h-screen
-        pt-32
-        px-24
-        md:px-16
-        sm:px-8
-        flex flex-col
-        duration-1000
-      "
-    >
-      <div
-        class="
-          stack__grid
-          px-24
-          absolute
-          top-0
-          left-0
-          h-full
-          w-full
-          grid grid-cols-3
-          md:hidden
-          sm:hidden
-        "
-      >
+    <div ref="mainContainer" v-show="isVisible" class="advantages w-full h-screen absolute top-0 left-0">
+      <div class="absolute bottom-0 left-0 h-full w-full overflow-hidden">
+        <LazyImage width="1228" height="1080" src="index/stack/stack-bg.png" class="absolute right-0 stack__bg-image" />
+      </div>
+      <div class="stack__grid px-24 absolute top-0 left-0 h-full w-full grid grid-cols-3 md:hidden sm:hidden">
         <div v-for="n in 3" :key="n" class="w-px bg-gray-2 h-full"></div>
       </div>
-      <LazyImage
-        width="1228"
-        height="1080"
-        src="index/stack/stack-bg.png"
-        class="absolute right-0 stack__bg-image"
-      />
       <div
-        class="grid grid-cols-3 sm:flex sm:gap-4 items-center stack__top-text"
+        ref="scrollContainer"
+        class="stack w-full relative overflow-scroll h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col duration-1000"
       >
-        <p class="text-3xl text-white font-bold leading-10">Technologies</p>
-        <p style="min-width: 488px" class="text-white leading-5">
-          Proven track record of using advanced development <br />technology and
-          ML models
-        </p>
-      </div>
-      <div
-        class="
-          mt-6
-          md:mt-12
-          sm:mt-12
-          grid grid-cols-3
-          md:grid-cols-2
-          sm:grid-cols-2 sm:gap-4
-          md:gap-4
-          z-5
-          stack__main-block
-        "
-      >
-        <div v-for="(col, index) in formattedStack" :key="index" class="mb-6">
-          <div
-            :style="{ 'transition-delay': `${index * 150}ms` }"
-            v-for="(block, index) in col"
-            :key="block.title"
-            class="mb-6 stack__block"
-          >
-            <p class="font-semibold text-yellow-1 leading-8 mb-2">
-              {{ block.title }}
-            </p>
+        <div class="grid grid-cols-3 sm:flex sm:gap-4 items-center stack__top-text">
+          <p class="text-3xl text-white font-bold leading-10">Technologies</p>
+          <p style="min-width: 488px" class="text-white leading-5">
+            Proven track record of using advanced development <br />technology and ML models
+          </p>
+        </div>
+        <div
+          class="
+            mt-6
+            md:mt-12
+            sm:mt-12
+            grid grid-cols-3
+            md:grid-cols-2
+            sm:grid-cols-2 sm:gap-4
+            md:gap-4
+            z-5
+            stack__main-block
+          "
+        >
+          <div v-for="(col, index) in formattedStack" :key="index" class="mb-6">
             <div
-              v-for="tech in block.technologies"
-              :key="tech"
-              class="flex items-center gap-2 pl-2"
+              :style="{ 'transition-delay': `${index * 150}ms` }"
+              v-for="(block, index) in col"
+              :key="block.title"
+              class="mb-6 stack__block"
             >
-              <div class="w-1 h-1 rounded-60 bg-white"></div>
-              <p class="text-white">{{ tech }}</p>
+              <p class="font-semibold text-yellow-1 leading-8 mb-2">
+                {{ block.title }}
+              </p>
+              <div v-for="tech in block.technologies" :key="tech" class="flex items-center gap-2 pl-2">
+                <div class="w-1 h-1 rounded-60 bg-white"></div>
+                <p class="text-white">{{ tech }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -86,16 +53,15 @@
 </template>
 
 <script>
+import changeCurrentSection from '~/mixins/changeCurrentSection'
+
 export default {
   name: 'StackList',
+  mixins: [changeCurrentSection],
   props: {
-    currentSection: {
-      type: Number,
-      required: true,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
+    order: {
+      type: [Number, String],
+      default: '',
     },
   },
   data() {
@@ -115,25 +81,11 @@ export default {
         },
         {
           title: 'Backend',
-          technologies: [
-            'PHP',
-            'PostgreSQL',
-            'Laravel',
-            'ElasticSearch',
-            'MongoDB',
-            'C, C#',
-            'Python',
-          ],
+          technologies: ['PHP', 'PostgreSQL', 'Laravel', 'ElasticSearch', 'MongoDB', 'C, C#', 'Python'],
         },
         {
           title: 'The server part',
-          technologies: [
-            'Terraform',
-            'GitHub',
-            'AWS',
-            'Docker в Fargate',
-            'C#',
-          ],
+          technologies: ['Terraform', 'GitHub', 'AWS', 'Docker в Fargate', 'C#'],
         },
         {
           title: 'ML',
@@ -150,14 +102,7 @@ export default {
         },
         {
           title: 'DML',
-          technologies: [
-            'DNN',
-            'CAP',
-            'VGG-19',
-            'Inceptionv3',
-            'ResNet50',
-            'EfficientNet',
-          ],
+          technologies: ['DNN', 'CAP', 'VGG-19', 'Inceptionv3', 'ResNet50', 'EfficientNet'],
         },
         {
           title: 'Biometric / Cyber security',
@@ -169,21 +114,20 @@ export default {
         },
         {
           title: 'Blockchain & Crypto',
-          technologies: [
-            'ETH',
-            'TRON',
-            'BTC',
-            'Tezos',
-            'NEAR protocol',
-            'C-Chain (Avalanche)',
-          ],
+          technologies: ['ETH', 'TRON', 'BTC', 'Tezos', 'NEAR protocol', 'C-Chain (Avalanche)'],
         },
       ],
     }
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === 12
+      return this.currentSection === this.$props.order
+    },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
     },
     formattedStack() {
       const array = []
