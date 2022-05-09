@@ -12,3 +12,7 @@ body {
   opacity: 1;
   transition: opacity 400ms;
 }
+
+*::-webkit-scrollbar {
+  width: 0px !important;
+}

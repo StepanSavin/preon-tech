@@ -1,234 +1,125 @@
 <template>
-  <transition
-    :name="scrollDirection === 'down' ? 'processes-down' : 'processes-up'"
-  >
-    <div
-      v-if="isVisible"
-      class="
-        processes
-        w-full
-        h-screen
-        pt-32
-        pl-24
-        md:px-16
-        sm:px-8
-        flex flex-col
-        duration-1000
-      "
-    >
-      <div class="flex items-center processes__top-text">
-        <p class="text-3xl text-white font-bold leading-10">Processes</p>
+  <transition :name="scrollDirection === 'down' ? 'processes-down' : 'processes-up'">
+    <div ref="mainContainer" v-show="isVisible" class="processes advantages w-full h-screen absolute top-0 left-0">
+      <div class="w-full h-full pt-32 pl-24 md:px-16 sm:px-8 flex flex-col text-white">
         <div class="flex items-center">
-          <p class="text-white leading-5 processes__subtext">
-            Speed and quality are achieved by unique design and development
-            <br class="sm:hidden" />processes for it solutions. Automated
-            project management system <br class="sm:hidden" />gives the customer
-            access to real-time reporting of all project details
+          <p class="text-3xl leading-10 font-bold">Processes</p>
+          <p class="processes__subtitle leading-5 font-medium sm:ml-16">
+            Speed and quality are achieved by unique design and development<br class="sm:hidden" />
+            processes for it solutions. Automated project management system<br class="sm:hidden" />
+            gives the customer access to real-time reporting of all project details
           </p>
         </div>
-      </div>
-      <div
-        class="
-          flex-1 flex
-          md:block
-          sm:block
-          gap-20
-          mt-8
-          md:mt-6
-          sm:mt-6
-          processes__main-block
-        "
-      >
-        <div
-          class="
-            processes__image-wrapper
-            md:w-full
-            sm:w-full
-            rounded-30
-            relative
-            hidden
-            sm:block
-            md:block
-          "
-        >
-          <div class="overflow-hidden h-full rounded-30">
-            <LazyImage
-              src="index/processes/process-md.png"
-              class="rounded-30 object-cover object-center"
+        <div class="processes__info-wrapper mt-6 flex flex-col gap-6">
+          <div class="processes__image-wrapper md:w-full sm:w-full relative">
+            <img
+              v-for="imageIndex in processes.length"
+              :key="imageIndex"
+              :src="require(`~/assets/images/index/processes/${imageIndex}.png`)"
+              class="w-full h-full object-cover absolute top-0 left-0 rounded-30"
+              :class="imageIndex === currentSlideXs ? 'z-2' : 'opacity-0 '"
             />
+            <div
+              class="processes__advantage rounded-full absolute z-9 flex justify-center items-center flex-col"
+              :class="`bg-process-adv-${currentSlideXs}`"
+            >
+              <p class="font-medium text-3xl leading-10 text-center">
+                {{ processes[currentSlideXs - 1].advantage.number }}
+              </p>
+              <p style="font-size: 10px" class="font-medium leading-5 text-center">
+                {{ processes[currentSlideXs - 1].advantage.text }}
+              </p>
+            </div>
           </div>
           <div
-            class="
-              processes__advantage
-              w-40
-              h-40
-              rounded-full
-              absolute
-              z-3
-              flex flex-col
-              justify-center
-              items-center
-              md:top-28 md:-left-14
-              sm:-top-10 sm:-left-6
-              bg-process-adv-1
-            "
+            ref="scrollContainer"
+            class="flex-1 processes__list-wrapper overflow-scroll flex flex-col gap-2 md:gap-4"
           >
-            <p class="text-white text-2xl font-medium leading-10">3 days</p>
-            <p
-              style="font-size: 10px"
-              class="text-white font-medium leading-3 text-center"
+            <div
+              v-for="(process, index) in processes"
+              :key="process.title"
+              class="w-full p-4 rounded-8 duration-700"
+              :class="process.isTextVisible ? `bg-process-bg-${index + 1}` : ' bg-gray-2'"
             >
-              or evaluation and road map
-            </p>
-          </div>
-        </div>
-        <div class="mt-6 flex-col gap-4 sm:gap-2 hidden sm:flex md:flex">
-          <transition v-for="process in processes" :key="process.title">
-            <div class="max-h-20">
-              <div
-                class="
-                  w-full
-                  flex
-                  justify-between
-                  items-center
-                  h-20
-                  bg-gray-2
-                  rounded-8
-                  px-4
-                "
-              >
-                <div class="text-white">
-                  <p class="leading-5 font-medium">{{ process.date }}</p>
-                  <p class="font-semibold text-xl leading-6 mt-1">
-                    {{ process.title }}
-                  </p>
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="leading-5 font-medium sm:text-sm sm:leading-4">{{ process.date }}</p>
+                  <p class="text-xl leading-6 font-semibold sm:text-base sm:leading-5">{{ process.title }}</p>
                 </div>
-                <div class="flex gap-2">
-                  <p class="text-yellow-1 text-xl leading-6 font-medium">
-                    Details
-                  </p>
-                  <div
-                    class="
-                      flex
-                      bg-yellow-1
-                      w-8
-                      h-8
-                      rounded-full
-                      justify-center
-                      items-center
-                    "
-                  >
+                <div class="flex gap-2 items-center" @click="handleDetailsClick(process, index)">
+                  <p class="text-yellow-1 font-semibold leading-5">{{ process.isTextVisible ? 'Hide' : 'Details' }}</p>
+                  <div class="flex justify-center items-center rounded-full bg-yellow-1 w-8 h-8">
                     <LazyImage
+                      :style="{ transform: `rotate(${process.isTextVisible ? '180' : '0'}deg)` }"
                       width="14"
                       height="14"
-                      src="index/processes/arrow-down.svg"
+                      src="index/processes/arrow-yellow.svg"
+                      class="duration-700"
                     />
                   </div>
                 </div>
               </div>
-            </div>
-          </transition>
-        </div>
-        <div class="flex-1 flex gap-4 md:hidden sm:hidden">
-          <div class="w-8 h-full">
-            <div class="w-px h-full mx-auto bg-white"></div>
-          </div>
-          <div class="flex-1 h-full relative">
-            <div
-              v-for="(process, index) in processes"
-              :key="process.title"
-              :style="{ top: `${60 * index}px` }"
-              class="w-full absolute left-0 mb-3 duration-1000"
-              :class="{
-                'processes__active-process': section - 1 === index,
-                'processes__next-process': section === index,
-                'processes__disabled-process': index > section,
-              }"
-            >
-              <p class="font-medium leading-5 text-white duration-1000">
-                {{ process.date }}
-              </p>
-              <p
-                class="mt-1 text-white leading-6 font-semibold duration-1000"
-                :class="section - 1 === index ? 'text-2xl' : ' text-xl '"
-              >
-                {{ process.title }}
-              </p>
-              <p
-                class="mt-2 text-xl leading-6 text-white duration-1000"
-                :class="section - 1 === index ? '' : 'max-h-0 opacity-0'"
+              <div
+                :style="{ 'max-height': `${process.isTextVisible ? '110' : '0'}px` }"
+                class="mt-2 text-sm leading-4 md:text-xl md:leading-6 overflow-hidden duration-700"
               >
                 {{ process.text }}
-              </p>
-              <div
-                style="left: -37px"
-                class="
-                  rounded-full
-                  bg-white
-                  w-2.5
-                  h-2.5
-                  absolute
-                  top-0
-                  transform
-                  duration-1000
-                "
-                :class="{ 'scale-150': index + 1 === section }"
-              ></div>
+              </div>
             </div>
           </div>
         </div>
-        <div
-          class="
-            processes__image-wrapper
-            md:w-full
-            sm:w-full sm:hidden
-            relative
-            md:hidden
-          "
-        >
-          <transition-group tag="div" name="process-images">
-            <img
-              v-for="n in processes.length"
-              :key="n + `${section}`"
-              style="max-width: unset"
-              width="500"
-              height="490"
-              :src="require(`@/assets/images/index/processes/${n}.png`)"
-              class="absolute top-0 left-0"
-              :class="{
-                'z-2 opacity-1': n === section,
-                'opacity-0': n !== section,
-              }"
-            />
-          </transition-group>
-          <transition name="process-advantage">
-            <div
-              :key="section"
-              class="
-                processes__advantage
-                w-40
-                h-40
-                rounded-full
-                absolute
-                z-3
-                flex flex-col
-                justify-center
-                items-center
-                md:top-28 md:-left-14
-              "
-              :class="`bg-process-adv-${section}`"
-            >
-              <p class="text-white text-2xl font-medium leading-10">
-                {{ processes[section - 1].advantage.number }}
-              </p>
-              <p
-                style="font-size: 10px"
-                class="text-white font-medium leading-3 text-center"
+        <div class="processes__slide-wrapper flex-1 mt-14 lg:mt-8 hidden">
+          <div class="flex-1 flex gap-4">
+            <div class="h-full w-8">
+              <div class="w-px h-full mx-auto bg-white"></div>
+            </div>
+            <div class="flex-1 relative">
+              <div
+                v-for="(process, index) in processes"
+                :key="process.title"
+                class="w-full absolute left-0 processes__slide duration-1000"
+                :class="[
+                  `processes__slide_${index + 1}`,
+                  {
+                    'in-list': index + 1 < currentSlide,
+                    current: index + 1 === currentSlide,
+                    next: index === currentSlide,
+                    invisible: index > currentSlide,
+                  },
+                ]"
               >
-                {{ processes[section - 1].advantage.text }}
+                <p class="leading-5 font-medium xl:text-xl xl:leading-6 processes__slide-date duration-1000">
+                  {{ process.date }}
+                </p>
+                <p class="text-xl leading-6 font-semibold processes__slide-title duration-1000">{{ process.title }}</p>
+                <p class="mt-2 text-xl leading-6 processes__slide-text duration-1000">{{ process.text }}</p>
+                <div
+                  style="left: -37px"
+                  class="absolute rounded-full bg-white w-2.5 h-2.5 top-0 processes__slide-point duration-1000"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="processes__image-wrapper relative">
+            <img
+              v-for="imageIndex in processes.length"
+              :key="imageIndex"
+              :src="require(`~/assets/images/index/processes/${imageIndex}.png`)"
+              class="w-full h-full object-cover absolute top-0 left-0 rounded-l-45"
+              :class="imageIndex === currentSlide ? 'z-2' : 'opacity-0 '"
+            />
+            <div
+              class="processes__advantage rounded-full absolute z-9 flex justify-center items-center flex-col"
+              :class="`bg-process-adv-${currentSlide}`"
+            >
+              <p class="font-medium text-3xl leading-10 text-center">
+                {{ processes[currentSlide - 1].advantage.number }}
+              </p>
+              <p style="font-size: 10px" class="font-medium leading-5 text-center">
+                {{ processes[currentSlide - 1].advantage.text }}
               </p>
             </div>
-          </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -239,17 +130,24 @@
 export default {
   name: 'ProcessesList',
   props: {
-    currentSection: {
-      type: Number,
-      required: true,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
+    order: {
+      type: [String, Number],
+      default: '',
     },
   },
   data() {
     return {
+      offScroll: false,
+      isScrollContainerExist: false,
+      isScrollOccured: false,
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0,
+      diffX: 0,
+      diffY: 0,
+      currentSlide: 1,
+      currentSlideXs: 1,
       processes: [
         {
           date: '3 days',
@@ -259,6 +157,7 @@ export default {
             number: '3 days',
             text: 'or evaluation and road map',
           },
+          isTextVisible: true,
         },
         {
           date: '7 days',
@@ -268,6 +167,7 @@ export default {
             number: '100%',
             text: 'teams with specialized experience',
           },
+          isTextVisible: false,
         },
         {
           date: '1-3 weeks',
@@ -277,6 +177,7 @@ export default {
             number: '100%',
             text: 'technical documentation at startup speed',
           },
+          isTextVisible: false,
         },
         {
           date: '2 weeks for 1 sprint',
@@ -286,6 +187,7 @@ export default {
             number: '0-5%',
             text: 'improvements due to 2 code reviews',
           },
+          isTextVisible: false,
         },
         {
           date: '7 days',
@@ -295,6 +197,7 @@ export default {
             number: '100%',
             text: 'test coverage of the entire IT solution',
           },
+          isTextVisible: false,
         },
         {
           date: '3,5 month',
@@ -304,6 +207,7 @@ export default {
             number: '3 months',
             text: 'to release the first version of a complex IT startup',
           },
+          isTextVisible: false,
         },
         {
           date: '',
@@ -313,173 +217,281 @@ export default {
             number: '30-40%',
             text: 'cheaper development due to unique processes',
           },
+          isTextVisible: false,
         },
       ],
     }
   },
-  watch: {
-    currentSection(newValue) {
-      switch (newValue) {
-        case 13:
-          this.$emit('changeColor', '#FD815C')
+  methods: {
+    changeBgColor(value) {
+      switch (value) {
+        case 1:
+          this.$store.commit('changeBgColor', '#FD815C')
           return
-        case 14:
-          this.$emit('changeColor', '#465281')
+        case 2:
+          this.$store.commit('changeBgColor', '#465281')
           return
-        case 15:
-          this.$emit('changeColor', '#2E0879')
+        case 3:
+          this.$store.commit('changeBgColor', '#2E0879')
           break
-        case 16:
-          this.$emit('changeColor', '#CFBC62')
+        case 4:
+          this.$store.commit('changeBgColor', '#CFBC62')
           break
-        case 17:
-          this.$emit('changeColor', '#FD815C')
+        case 5:
+          this.$store.commit('changeBgColor', '#FD815C')
           break
-        case 18:
-          this.$emit('changeColor', '#FE4A4F')
+        case 6:
+          this.$store.commit('changeBgColor', '#FE4A4F')
           break
-        case 19:
-          this.$emit('changeColor', '#9C0EA8')
+        case 7:
+          this.$store.commit('changeBgColor', '#9C0EA8')
           break
       }
     },
+    handleDetailsClick(process, index) {
+      const value = !process.isTextVisible
+      if (value) this.currentSlideXs = index + 1
+      this.processes.forEach((item) => {
+        item.isTextVisible = false
+      })
+      process.isTextVisible = value
+    },
+  },
+  watch: {
+    isVisible(value) {
+      if (!value) return
+      if (window.innerWidth > 1199) this.changeBgColor(this.currentSlide)
+      else this.$store.commit('changeBgColor', 'black')
+    },
+    currentSlide(value) {
+      this.changeBgColor(value)
+    },
   },
   computed: {
-    section() {
-      return this.$props.currentSection - 12
-    },
     isVisible() {
-      return (
-        this.$props.currentSection >= 13 && this.$props.currentSection <= 19
-      )
+      return this.currentSection === this.$props.order
     },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
+    },
+  },
+  mounted() {
+    if (this.$refs.scrollContainer) this.isScrollContainerExist = true
+
+    this.$refs.mainContainer.addEventListener('wheel', (event) => {
+      if (window.innerWidth <= 1199) return
+      if (Math.abs(event.wheelDelta) < 50) return
+      if (this.offScroll | event.ctrlKey) return
+
+      if (event.deltaY > 0) {
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 1000)
+        setTimeout(() => {
+          if (this.currentSlide === this.processes.length) this.$store.commit('nextSection')
+          else this.currentSlide += 1
+        }, 50)
+      } else {
+        this.offScroll = true
+        setTimeout(() => {
+          this.offScroll = false
+        }, 800)
+        setTimeout(() => {
+          if (this.currentSlide === 1) this.$store.commit('prevSection')
+          else this.currentSlide = this.currentSlide - 1
+        }, 50)
+      }
+    })
+
+    this.$refs.mainContainer.addEventListener('touchstart', (event) => {
+      this.touchStartX = event.changedTouches[0].screenX
+      this.touchStartY = event.changedTouches[0].screenY
+      this.isScrollOccured = false
+    })
+
+    this.$refs.mainContainer.addEventListener('touchend', (event) => {
+      if (window.innerWidth > 1199) return
+      if (this.isScrollOccured) return
+      this.touchEndX = event.changedTouches[0].screenX
+      this.touchEndY = event.changedTouches[0].screenY
+      this.diffX = Math.abs(this.touchEndX - this.touchStartX)
+      this.diffY = Math.abs(this.touchEndY - this.touchStartY)
+      if (this.diffY > this.diffX && this.touchEndY - this.touchStartY > 70) {
+        setTimeout(() => {
+          this.$store.commit('prevSection')
+        }, 50)
+      }
+      if (this.diffY > this.diffX && this.touchStartY - this.touchEndY > 70) {
+        setTimeout(() => {
+          this.$store.commit('nextSection')
+        }, 50)
+      }
+    })
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1200 || window.innerHeight < 810) this.$store.commit('changeBgColor', 'black')
+      else this.changeBgColor(this.currentSlide)
+    })
+
+    if (this.isScrollContainerExist)
+      this.$refs.scrollContainer.addEventListener('scroll', () => {
+        console.log('scroll')
+        this.isScrollOccured = true
+      })
   },
 }
 </script>
 
 <style lang="scss">
 .processes {
-  &__subtext {
-    margin-left: 260px;
-    @media (max-width: 1199px) and (min-width: 1024px) {
-      margin-left: 141px;
-    }
-    @media (max-width: 1023px) {
-      margin-left: 70px;
-    }
-  }
   &__image-wrapper {
-    width: 395px;
-    @media (max-width: 1199px) and (min-width: 1024px) {
+    width: 515px;
+    @media (max-width: 1919px) {
+      width: 395px;
+    }
+    height: 80%;
+    @media (max-width: 1199px) {
       height: 314px;
     }
     @media (max-width: 1023px) {
       height: 220px;
     }
   }
-  &__active-process {
-    top: calc(100% - 200px) !important;
+
+  &__subtitle {
+    margin-left: 420px;
+    @media (max-width: 1919px) {
+      margin-left: 260px;
+    }
+    @media (max-width: 1199px) {
+      margin-left: 140px;
+    }
   }
-  &__next-process {
-    top: calc(100% - 50px) !important;
+
+  &__slide-wrapper {
+    gap: 348px;
+    @media (max-width: 1919px) {
+      gap: 78px;
+    }
+    @media (min-width: 1199px) and (min-height: 810px) {
+      display: flex !important;
+    }
+  }
+
+  &__slide_1.in-list {
+    top: 0;
+    @media (max-width: 1919px) {
+      top: 0;
+    }
+  }
+  &__slide_2.in-list {
+    top: 77px;
+    @media (max-width: 1919px) {
+      top: 60px;
+    }
+  }
+  &__slide_3.in-list {
+    top: 154px;
+    @media (max-width: 1919px) {
+      top: 120px;
+    }
+  }
+  &__slide_4.in-list {
+    top: 231px;
+    @media (max-width: 1919px) {
+      top: 180px;
+    }
+  }
+  &__slide_5.in-list {
+    top: 308px;
+    @media (max-width: 1919px) {
+      top: 240px;
+    }
+  }
+  &__slide_6.in-list {
+    top: 385px;
+    @media (max-width: 1919px) {
+      top: 300px;
+    }
+  }
+  &__slide_7.in-list {
+    top: 462px;
+    @media (max-width: 1919px) {
+      top: 360px;
+    }
+  }
+  &__slide.in-list {
+    .processes__slide-text {
+      opacity: 0;
+    }
+  }
+
+  &__slide.current {
+    top: 65%;
+    .processes__slide-point {
+      transform: scale(2);
+    }
+    .processes__slide-date {
+      font-weight: 600 !important;
+    }
+    .processes__slide-title {
+      font-size: 32px !important;
+      line-height: 39px !important;
+    }
+  }
+  &__slide.next {
+    top: 90%;
     & > p {
       opacity: 50%;
     }
+    .processes__slide-date {
+      font-weight: 600 !important;
+    }
+    .processes__slide-title {
+      font-size: 32px !important;
+      line-height: 39px !important;
+    }
   }
-  &__disabled-process {
-    top: 150% !important;
+  &__slide.invisible {
+    top: 120%;
   }
+
   &__advantage {
-    top: 250px;
-    left: -72px;
-  }
-}
-
-.process-images {
-  &-leave-active,
-  &-enter-active {
-    transition: all 700ms;
-  }
-  &-leave-active {
-    opacity: 100% !important;
-    transform: translateX(0) !important;
-  }
-  &-enter {
-    transform: translateX(600px);
-  }
-}
-
-.process-advantage {
-  &-leave-active,
-  &-enter-active {
-    transition: all 0.7s;
-  }
-  &-enter {
-    opacity: 0;
-    transform: translateY(80px);
-  }
-  &-leave-to {
-    opacity: 0;
-    transform: translateY(-80px);
-  }
-}
-
-.processes {
-  &-down {
-    &-enter-active,
-    &-enter-active * {
-      transition: all 700ms;
+    width: 192px;
+    min-width: 192px;
+    height: 192px;
+    bottom: 60px;
+    left: -215px;
+    @media (max-width: 1919px) {
+      bottom: 115px;
+      left: -60px;
     }
-    &-leave-active,
-    &-leave-active * {
-      transition: all 700ms;
+    @media (max-width: 1199px) {
+      bottom: 0;
+      left: -56px;
     }
-    &-enter {
-      .processes__main-block {
-        transform: translateY(100vh);
-      }
-      .processes__top-text {
-        opacity: 0;
-        transform: scaleY(0.1);
-      }
-    }
-    &-leave-to {
-      .processes__main-block {
-        transform: translateY(-100vh);
-      }
-      .processes__top-text {
-        opacity: 0;
-        transform: scaleY(0.1);
-      }
+    @media (max-width: 1023px) {
+      bottom: 66px;
+      left: -28px;
     }
   }
-
-  &-up {
-    &-enter-active,
-    &-enter-active * {
-      transition: all 700ms;
+  &__info-wrapper {
+    display: none;
+    @media (max-width: 1199px) {
+      display: block;
     }
-    &-leave-active,
-    &-leave-active * {
-      transition: all 700ms;
+    @media (max-height: 810px) {
+      display: block;
     }
-    &-enter {
-      .processes__main-block {
-        transform: translateY(-100vh);
-      }
-      .processes__top-text {
-        opacity: 0;
-        transform: scaleY(0.1);
-      }
-    }
-    &-leave-to {
-      .processes__main-block {
-        transform: translateY(100vh);
-      }
-      .processes__top-text {
-        opacity: 0;
-        transform: scaleY(0.1);
-      }
+  }
+  &__list-wrapper {
+    max-height: 780px;
+    @media (max-width: 1023px) {
+      max-height: 500px;
     }
   }
 }

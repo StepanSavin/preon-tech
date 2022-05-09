@@ -1,7 +1,7 @@
 <template>
   <transition :name="scrollDirection === 'down' ? 'advantages-down' : 'advantages-up'">
     <div ref="mainContainer" v-show="isVisible" class="advantages w-full h-screen absolute top-0 left-0">
-      <div ref="scrollContainer" class="overflow-scroll w-full h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col pb-12">
+      <div class="w-full h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col pb-12">
         <div class="advantages__grid absolute top-0 left-0 w-full h-full px-24 grid grid-cols-3 md:hidden sm:hidden">
           <div v-for="n in 3" :key="n" class="h-full">
             <div class="advantages__vertical-line w-px h-full bg-gray-3"></div>

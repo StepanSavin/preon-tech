@@ -239,8 +239,8 @@ export default {
       touchEndY: 0,
       diffX: 0,
       diffY: 0,
-      swiper: {},
       offScroll: false,
+      swiper: {},
       options: {
         slidesPerView: 1,
         spaceBetween: 16,

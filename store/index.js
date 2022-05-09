@@ -7,7 +7,7 @@ function manageScroll(display, el) {
 
 export const state = () => ({
   indexBgColor: 'black',
-  indexCurrentSection: 5,
+  indexCurrentSection: 6,
   indexScrollDirection: 'down',
   isMenuVisible: false,
 })

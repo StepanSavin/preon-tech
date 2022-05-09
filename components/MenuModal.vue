@@ -14,7 +14,6 @@
         md:block
         sm:block
         xs:block
-        overflow-scroll
       "
     >
       <div>

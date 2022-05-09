@@ -9,7 +9,7 @@
       </div>
       <div
         ref="scrollContainer"
-        class="stack w-full relative overflow-scroll h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col duration-1000"
+        class="stack w-full relative overflow-x-hidden h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col duration-1000"
       >
         <div class="grid grid-cols-3 sm:flex sm:gap-4 items-center stack__top-text">
           <p class="text-3xl text-white font-bold leading-10">Technologies</p>

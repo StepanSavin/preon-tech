@@ -9,15 +9,11 @@
       <CasePage :order="2" />
       <TrustPartners :order="3" />
       <ServicesSolutions :order="4" />
-
       <AdvantagesList :order="5" />
-      <StackList :order="6"/>
-      <!-- <ProcessesList
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
-      />
-      <DealsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
+      <StackList :order="6" />
+      <ProcessesList :order="7" />
+
+      <!--<DealsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
       <ReviewsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" /> -->
     </div>
     <IndexMobile class="hidden xs:block" />
@@ -31,7 +27,7 @@ import TrustPartners from '@/components/pages/index/TrustPartners.vue'
 import ServicesSolutions from '@/components/pages/index/ServicesSolutions.vue'
 import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
 import StackList from '@/components/pages/index/StackList.vue'
-// import ProcessesList from '@/components/pages/index/ProcessesList.vue'
+import ProcessesList from '@/components/pages/index/ProcessesList.vue'
 // import DealsList from '@/components/pages/index/DealsList.vue'
 // import ReviewsList from '@/components/pages/index/ReviewsList.vue'
 
@@ -46,7 +42,7 @@ export default {
     ServicesSolutions,
     AdvantagesList,
     StackList,
-    // ProcessesList,
+    ProcessesList,
     // DealsList,
     // ReviewsList,
     IndexMobile,
