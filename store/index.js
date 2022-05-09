@@ -2,6 +2,7 @@ export const state = () => ({
   indexBgColor: 'black',
   indexCurrentSection: 1,
   indexScrollDirection: 'down',
+  isMenuVisible: false,
 })
 
 export const mutations = {
@@ -21,5 +22,8 @@ export const mutations = {
     if (value.nextSection > value.prevSection) state.indexScrollDirection = 'down'
     else state.indexScrollDirection = 'up'
     state.indexCurrentSection = value.nextSection
+  },
+  toggleMenu(state) {
+    state.isMenuVisible = !state.isMenuVisible
   },
 }

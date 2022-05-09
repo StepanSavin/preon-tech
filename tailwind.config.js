@@ -70,6 +70,8 @@ module.exports = {
         'gray-4': '#C3C3C3',
         'gray-5': '#333333',
         'gray-6': '#5C585B',
+        'gray-7': '#3F3F3F',
+        'gray-8': '#8C8C8C',
         case: {
           1: '#FF9B80',
           'text-1': '#D74E28',

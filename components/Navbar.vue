@@ -1,7 +1,7 @@
 <template>
   <div
     ref="navbarWrapper"
-    class="px-24 md:px-16 sm:px-8 xs:px-6 fixed z-10 w-full xs:flex xs:items-center duration-1000"
+    class="px-24 md:px-16 sm:px-8 xs:px-6 fixed z-20 w-full xs:flex xs:items-center duration-1000"
     :class="[
       currentSection === 1 ? 'navbar_first-section ' : 'navbar_not-first-section',
       { 'xs:bg-black': isNavbarSolid },
@@ -21,7 +21,7 @@
         />
         <div
           class="navbar__first-block md:hidden sm:hidden xs:hidden duration-1000"
-          :class="{ 'navbar__hidden-element': currentSection !== 1 }"
+          :class="{ 'navbar__hidden-element': isNavbarHidden }"
         >
           <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Cases</p>
           <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Processes</p>
@@ -32,7 +32,7 @@
         </div>
         <div
           class="navbar__second-block md:hidden sm:hidden xs:hidden duration-1000"
-          :class="{ 'navbar__hidden-element': currentSection !== 1 }"
+          :class="{ 'navbar__hidden-element': isNavbarHidden }"
         >
           <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Technologies</p>
           <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Career</p>
@@ -42,7 +42,7 @@
       <div class="flex items-start">
         <div
           class="navbar__lang-switcher flex gap-4 md:hidden sm:hidden xs:hidden duration-1000"
-          :class="{ 'navbar__hidden-element': currentSection !== 1 }"
+          :class="{ 'navbar__hidden-element': isNavbarHidden }"
         >
           <p class="text-yellow-1 leading-5 font-semibold cursor-pointer">En</p>
           <p class="text-white leading-5 font-semibold cursor-pointer">Es</p>
@@ -62,7 +62,8 @@
               duration-1000
               cursor-pointer
             "
-            :class="{ 'lg:opacity-0 xl:opacity-0': currentSection === 1 }"
+            :class="$store.state.isMenuVisible || currentSection !== 1 ? 'opacity-1' : 'lg:opacity-0 xl:opacity-0'"
+            @click="toggleMenuModal"
           >
             <div style="height: 3px" class="w-full bg-white xs:h-0.5"></div>
             <div style="height: 3px" class="w-full bg-white xs:h-0.5"></div>
@@ -84,7 +85,8 @@
               sm:hidden
               xs:hidden
             "
-            :class="{ 'navbar__hidden-element': currentSection !== 1 }"
+            :class="{ 'navbar__hidden-element': isNavbarHidden }"
+            @click="toggleMenuModal"
           >
             Contact
           </button>
@@ -109,10 +111,17 @@ export default {
     isBgSolid() {
       return this.$store.state.isNavbarSolid
     },
+    isNavbarHidden() {
+      return this.currentSection !== 1 || this.$store.state.isMenuVisible
+    },
   },
   methods: {
     handleLogoClick() {
+      if (this.$store.state.isMenuVisible) return
       this.$store.commit('setSection', { prevSection: this.currentSection, nextSection: 1 })
+    },
+    toggleMenuModal() {
+      this.$store.commit('toggleMenu')
     },
   },
   mounted() {
