@@ -1,3 +1,10 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+
+function manageScroll(display, el) {
+  if (display) disableBodyScroll(el)
+  else enableBodyScroll(el)
+}
+
 export const state = () => ({
   indexBgColor: 'black',
   indexCurrentSection: 1,
@@ -25,5 +32,7 @@ export const mutations = {
   },
   toggleMenu(state) {
     state.isMenuVisible = !state.isMenuVisible
+    const el = document.querySelector('#menuModal')
+    manageScroll(state.isMenuVisible, el)
   },
 }

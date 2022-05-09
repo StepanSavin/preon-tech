@@ -65,8 +65,16 @@
             :class="$store.state.isMenuVisible || currentSection !== 1 ? 'opacity-1' : 'lg:opacity-0 xl:opacity-0'"
             @click="toggleMenuModal"
           >
-            <div style="height: 3px" class="w-full bg-white xs:h-0.5"></div>
-            <div style="height: 3px" class="w-full bg-white xs:h-0.5"></div>
+            <div
+              style="height: 3px"
+              class="w-full bg-white xs:h-0.5 navbar__top-burger"
+              :class="{ 'navbar__top-burger_active': $store.state.isMenuVisible }"
+            ></div>
+            <div
+              style="height: 3px"
+              class="w-full bg-white xs:h-0.5 navbar__bottom-burger"
+              :class="{ 'navbar__bottom-burger_active': $store.state.isMenuVisible }"
+            ></div>
           </div>
           <button
             style="width: 180px"
@@ -169,6 +177,27 @@ export default {
 
   &__hidden-element {
     transform: translateY(-300px);
+  }
+
+  &__bottom-burger {
+    transform-origin: 16%;
+    transition: all 500ms;
+    &_active {
+      transform: rotate(-45deg);
+    }
+    @media (max-width: 743px) {
+      transform-origin: 20%;
+    }
+  }
+  &__top-burger {
+    transform-origin: 32%;
+    transition: all 500ms;
+    &_active {
+      transform: rotate(45deg);
+    }
+    @media (max-width: 743px) {
+      transform-origin: 20%;
+    }
   }
 }
 </style>

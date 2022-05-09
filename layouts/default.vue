@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <Nuxt />
-    <MenuModal v-show="isMenuVisible" />
+    <transition name="menu-appear"><MenuModal v-show="isMenuVisible" /></transition>
   </div>
 </template>
 
@@ -19,3 +19,30 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.menu-appear {
+  &-leave-active,
+  &-enter-active {
+    transition: all 1500ms;
+    .menu-modal__item-wrapper,
+    .menu-modal__contact-wrapper {
+      transition: all 1000ms;
+      transition-delay: 500ms;
+    }
+  }
+  &-enter,
+  &-leave-to {
+    max-height: 0% !important;
+    .menu-modal__item-wrapper,
+    .menu-modal__contact-wrapper {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  }
+  &-enter-to,
+  &-leave {
+    max-height: 100% !important;
+  }
+}
+</style>

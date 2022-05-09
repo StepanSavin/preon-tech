@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed top-0 left-0 w-full h-screen z-10 bg-black menu-modal text-white overflow-hidden">
+  <div id="menuModal" class="fixed origin-top top-0 left-0 w-full h-screen z-10 bg-black menu-modal text-white overflow-hidden">
     <div
       class="
         w-full
@@ -14,6 +14,7 @@
         md:block
         sm:block
         xs:block
+        overflow-scroll
       "
     >
       <div>
@@ -23,7 +24,7 @@
           :key="item"
           class="menu-modal__item-wrapper flex items-center gap-4 mb-10 xs:mb-6 cursor-pointer"
         >
-          <p class="menu-modal__item lg:text-3xl lg:leading-10 font-medium xs:text-xl xs:leading-6">
+          <p class="menu-modal__item lg:text-3xl lg:leading-10 font-medium sm:text-2xl sm:leading-7 xs:text-xl xs:leading-6">
             {{ item }}
           </p>
           <div class="w-5 h-5 bg-white rounded-full flex justify-center items-center">
@@ -105,11 +106,16 @@
       >
         Contact Us
       </button>
-      <div class="menu-modal__social mt-32 sm:mt-16 mx-auto hidden md:flex sm:flex items-center">
-        <div class="flex gap-10 mx-auto">
+      <div class="menu-modal__social xs:w-full mt-32 sm:mt-16 xs:mt-8 mx-auto hidden md:flex sm:flex xs:flex xs:items-start flex-col items-center">
+        <div class="flex gap-10 mx-auto xs:hidden">
           <p class="text-2xl leading-6 font-semibold text-yellow-1">En</p>
           <p class="text-2xl leading-6 font-semibold">Es</p>
         </div>
+        <p class="mt-8 text-center xs:text-left font-semibold text-xl leading-6 xs:font-normal">+7 (999) 000 00 00</p>
+        <div class="mt-8 xs:mt-6 xs:w-auto xs:gap-4 flex justify-between items-center w-full">
+          <LazyImage v-for="social in socials" :key="social" width="32" height="32" :src="`menu/${social}.svg`" />
+        </div>
+        <p class="text-center xs:text-left mt-8 text-gray-2 text-sm leading-4 tracking-tight">© XTR solutions. All rights reserved. 2022</p>
       </div>
     </div>
   </div>
@@ -125,6 +131,7 @@ export default {
       emailValue: '',
       numberValue: '',
       isChecked: false,
+      socials: ['facebook', 'twitter', 'instagram', 'telegram'],
     }
   },
 }
@@ -172,7 +179,7 @@ export default {
   }
 
   &__social {
-    width: 260px;
+    width: 280px;
   }
 }
 </style>
