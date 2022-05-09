@@ -10,7 +10,7 @@
             gives the customer access to real-time reporting of all project details
           </p>
         </div>
-        <div class="processes__info-wrapper mt-6 flex flex-col gap-6">
+        <div class="processes__info-wrapper mt-6 flex-col gap-6">
           <div class="processes__image-wrapper md:w-full sm:w-full relative">
             <img
               v-for="imageIndex in processes.length"
@@ -333,6 +333,7 @@ export default {
     })
 
     window.addEventListener('resize', () => {
+      if (!this.isVisible) return
       if (window.innerWidth < 1200 || window.innerHeight < 810) this.$store.commit('changeBgColor', 'black')
       else this.changeBgColor(this.currentSlide)
     })
@@ -482,10 +483,7 @@ export default {
   &__info-wrapper {
     display: none;
     @media (max-width: 1199px) {
-      display: block;
-    }
-    @media (max-height: 810px) {
-      display: block;
+      display: flex;
     }
   }
   &__list-wrapper {

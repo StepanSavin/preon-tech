@@ -7,7 +7,7 @@ function manageScroll(display, el) {
 
 export const state = () => ({
   indexBgColor: 'black',
-  indexCurrentSection: 6,
+  indexCurrentSection: 9,
   indexScrollDirection: 'down',
   isMenuVisible: false,
 })
@@ -17,6 +17,7 @@ export const mutations = {
     state.indexBgColor = value
   },
   nextSection(state) {
+    if (state.indexCurrentSection === 9) return
     state.indexScrollDirection = 'down'
     state.indexCurrentSection = state.indexCurrentSection + 1
   },

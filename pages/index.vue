@@ -12,9 +12,8 @@
       <AdvantagesList :order="5" />
       <StackList :order="6" />
       <ProcessesList :order="7" />
-
-      <!--<DealsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
-      <ReviewsList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" /> -->
+      <DealsList :order="8" />
+      <ReviewsList :order="9" />
     </div>
     <IndexMobile class="hidden xs:block" />
   </div>
@@ -28,8 +27,8 @@ import ServicesSolutions from '@/components/pages/index/ServicesSolutions.vue'
 import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
 import StackList from '@/components/pages/index/StackList.vue'
 import ProcessesList from '@/components/pages/index/ProcessesList.vue'
-// import DealsList from '@/components/pages/index/DealsList.vue'
-// import ReviewsList from '@/components/pages/index/ReviewsList.vue'
+import DealsList from '@/components/pages/index/DealsList.vue'
+import ReviewsList from '@/components/pages/index/ReviewsList.vue'
 
 import IndexMobile from '@/components/pages/index/indexMobile/IndexMobile'
 
@@ -43,8 +42,8 @@ export default {
     AdvantagesList,
     StackList,
     ProcessesList,
-    // DealsList,
-    // ReviewsList,
+    DealsList,
+    ReviewsList,
     IndexMobile,
   },
   data() {
