@@ -10,12 +10,8 @@
       <TrustPartners :order="3" />
       <ServicesSolutions :order="4" />
 
-      <!-- <AdvantagesList
-        :currentSection="currentSection"
-        :scrollDirection="scrollDirection"
-        class="absolute top-0 left-0"
-      />
-      <StackList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
+      <AdvantagesList :order="5" />
+      <!-- <StackList :currentSection="currentSection" :scrollDirection="scrollDirection" class="absolute top-0 left-0" />
       <ProcessesList
         :currentSection="currentSection"
         :scrollDirection="scrollDirection"
@@ -33,7 +29,7 @@ import Header from '@/components/pages/index/Header.vue'
 import CasePage from '@/components/pages/index/CasePage.vue'
 import TrustPartners from '@/components/pages/index/TrustPartners.vue'
 import ServicesSolutions from '@/components/pages/index/ServicesSolutions.vue'
-// import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
+import AdvantagesList from '@/components/pages/index/AdvantagesList.vue'
 // import ProcessesList from '@/components/pages/index/ProcessesList.vue'
 // import DealsList from '@/components/pages/index/DealsList.vue'
 // import StackList from '@/components/pages/index/StackList.vue'
@@ -48,7 +44,7 @@ export default {
     CasePage,
     TrustPartners,
     ServicesSolutions,
-    // AdvantagesList,
+    AdvantagesList,
     // ProcessesList,
     // DealsList,
     // StackList,

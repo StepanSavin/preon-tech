@@ -1,99 +1,66 @@
 <template>
-  <transition
-    :name="scrollDirection === 'down' ? 'advantages-down' : 'advantages-up'"
-  >
-    <div
-      v-if="isVisible"
-      class="advantages w-full h-screen pt-32 px-24 md:px-16 sm:px-8 flex flex-col pb-12"
-    >
-      <div
-        class="
-          advantages__grid
-          absolute
-          top-0
-          left-0
-          w-full
-          h-full
-          px-24
-          grid grid-cols-3
-          md:hidden
-          sm:hidden
-        "
-      >
-        <div v-for="n in 3" :key="n" class="h-full">
-          <div class="advantages__vertical-line w-px h-full bg-gray-3"></div>
+  <transition :name="scrollDirection === 'down' ? 'advantages-down' : 'advantages-up'">
+    <div ref="mainContainer" v-show="isVisible" class="advantages w-full h-screen absolute top-0 left-0">
+      <div ref="scrollContainer" class="overflow-scroll w-full h-full pt-32 px-24 md:px-16 sm:px-8 flex flex-col pb-12">
+        <div class="advantages__grid absolute top-0 left-0 w-full h-full px-24 grid grid-cols-3 md:hidden sm:hidden">
+          <div v-for="n in 3" :key="n" class="h-full">
+            <div class="advantages__vertical-line w-px h-full bg-gray-3"></div>
+          </div>
         </div>
-      </div>
-      <div class="grid grid-cols-3 sm:flex advantages__top-text">
-        <p class="text-3xl text-white flex-1 font-bold leading-10">
-          Figures of importance
-        </p>
-        <div class="flex items-center sm:ml-4">
-          <p class="text-white leading-5">
-            For the company's first year of operation in 2021
-          </p>
+        <div class="grid grid-cols-3 sm:flex advantages__top-text">
+          <p class="text-3xl text-white flex-1 font-bold leading-10">Figures of importance</p>
+          <div class="flex items-center sm:ml-4">
+            <p class="text-white leading-5">For the company's first year of operation in 2021</p>
+          </div>
         </div>
-      </div>
-      <div
-        class="
-          mt-10
-          grid grid-cols-3
-          text-xs
-          uppercase
-          text-white
-          font-bold
-          advantages__headers
-          md:hidden
-          sm:hidden
-        "
-      >
-        <p>Quantity</p>
-        <p>Quality</p>
-        <p>Dynamics</p>
-      </div>
-      <div class="mt-4 flex-1 grid grid-cols-3 md:gap-4 sm:gap-4 sm:grid-cols-2 sm:grid-rows-3 md:grid-cols-2 grid-rows-2 md:grid-rows-3 relative">
+        <div
+          class="mt-10 grid grid-cols-3 text-xs uppercase text-white font-bold advantages__headers md:hidden sm:hidden"
+        >
+          <p>Quantity</p>
+          <p>Quality</p>
+          <p>Dynamics</p>
+        </div>
         <div
           class="
-            advantages__horizontal-line
-            h-px
-            bg-gray-3
-            absolute
-            top-0
-            -left-24
-            md:hidden
-            sm:hidden
+            mt-4
+            flex-1
+            grid grid-cols-3
+            md:gap-4
+            sm:gap-4 sm:grid-cols-2 sm:grid-rows-3
+            md:grid-cols-2
+            grid-rows-2
+            md:grid-rows-3
+            relative
           "
-        ></div>
-        <div
-          v-for="(advantage, index) in advantages"
-          :style="{ 'transition-delay': `${500 + 100 * index}ms` }"
-          :key="advantage.number"
-          class="flex flex-col justify-center pr-4 advantages__block md:bg-gray-2 sm:bg-gray-2 sm:px-4 md:px-4"
         >
+          <div class="advantages__horizontal-line h-px bg-gray-3 absolute top-0 -left-24 md:hidden sm:hidden"></div>
           <div
-            class="
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              rounded-full
-              bg-white
-              relative
-              md:bg-yellow-1
-              sm:bg-yellow-1
-            "
+            v-for="(advantage, index) in advantages"
+            :style="{ 'transition-delay': `${500 + 100 * index}ms` }"
+            :key="advantage.number"
+            class="flex flex-col justify-center pr-4 advantages__block md:bg-gray-2 sm:bg-gray-2 sm:px-4 md:px-4"
           >
-            <LazyImage
-              width="12"
-              height="12"
-              src="index/advantages/arrow.svg"
-            />
+            <div
+              class="
+                flex
+                justify-center
+                items-center
+                w-8
+                h-8
+                rounded-full
+                bg-white
+                relative
+                md:bg-yellow-1
+                sm:bg-yellow-1
+              "
+            >
+              <LazyImage width="12" height="12" src="index/advantages/arrow.svg" />
+            </div>
+            <p class="advantages__number font-semibold mb-1 text-white">
+              {{ advantage.number }}
+            </p>
+            <p class="text-white text-xl leading-6">{{ advantage.text }}</p>
           </div>
-          <p class="advantages__number font-semibold mb-1 text-white">
-            {{ advantage.number }}
-          </p>
-          <p class="text-white text-xl leading-6">{{ advantage.text }}</p>
         </div>
       </div>
     </div>
@@ -101,16 +68,15 @@
 </template>
 
 <script>
+import changeCurrentSection from '~/mixins/changeCurrentSection'
+
 export default {
   name: 'AdvantagesList',
+  mixins: [changeCurrentSection],
   props: {
-    currentSection: {
-      type: Number,
-      required: true,
-    },
-    scrollDirection: {
-      type: String,
-      default: 'down',
+    order: {
+      type: [Number, String],
+      default: '',
     },
   },
   data() {
@@ -145,7 +111,13 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.$props.currentSection === 11
+      return this.currentSection === this.$props.order
+    },
+    currentSection() {
+      return this.$store.state.indexCurrentSection
+    },
+    scrollDirection() {
+      return this.$store.state.indexScrollDirection
     },
   },
 }
