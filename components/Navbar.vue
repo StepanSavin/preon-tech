@@ -12,23 +12,31 @@
       :class="currentSection === 1 ? 'mt-16 xs:mt-0' : 'mt-10 xs:mt-0'"
     >
       <div class="flex items-start xs:h-2.5">
-        <LazyImage width="56" height="32" src="navbar/logo.svg" class="cursor-pointer" />
+        <LazyImage
+          width="56"
+          height="32"
+          src="navbar/logo.svg"
+          class="cursor-pointer"
+          @click.native="handleLogoClick"
+        />
         <div
           class="navbar__first-block md:hidden sm:hidden xs:hidden duration-1000"
           :class="{ 'navbar__hidden-element': currentSection !== 1 }"
         >
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Cases</p>
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Processes</p>
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Services & Solutions</p>
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Super Deals</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Cases</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Processes</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">
+            Services & Solutions
+          </p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Super Deals</p>
         </div>
         <div
           class="navbar__second-block md:hidden sm:hidden xs:hidden duration-1000"
           :class="{ 'navbar__hidden-element': currentSection !== 1 }"
         >
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Technologies</p>
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Career</p>
-          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer">Mission</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Technologies</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Career</p>
+          <p class="text-white font-semibold leading-5 mb-1.5 cursor-pointer hover:text-yellow-1">Mission</p>
         </div>
       </div>
       <div class="flex items-start">
@@ -102,7 +110,11 @@ export default {
       return this.$store.state.isNavbarSolid
     },
   },
-  methods: {},
+  methods: {
+    handleLogoClick() {
+      this.$store.commit('setSection', { prevSection: this.currentSection, nextSection: 1 })
+    },
+  },
   mounted() {
     window.addEventListener('scroll', () => {
       if (document.querySelector('.header-xs').getBoundingClientRect().y < 0) this.isNavbarSolid = true
